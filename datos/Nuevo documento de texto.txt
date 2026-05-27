@@ -1,0 +1,43 @@
+<!-- Formulario de Registro de Ventas -->
+<div class="form-container">
+  <h2>Registrar Venta</h2>
+  <form id="ventaForm">
+    
+    <!-- Campo: Fecha -->
+    <label for="fecha">Fecha:</label>
+    <input type="date" id="fecha" name="fecha" required>
+
+    <!-- Campo: Sabor -->
+    <label for="sabor">Sabor Vendido:</label>
+    <select id="sabor" name="sabor" required>
+      <option value="">Selecciona un sabor</option>
+      <option value="Limón">Limón</option>
+      <option value="Baileys">Baileys</option>
+      <option value="Fresas con Crema">Fresas con Crema</option>
+      <option value="Galleta María">Galleta María</option>
+      <option value="Galleta Oreo">Galleta Oreo</option>
+      <option value="Nuez">Nuez</option>
+      <option value="Coco">Coco</option>
+      <option value="Vainilla">Vainilla</option>
+      <option value="Leche Quemada">Leche Quemada</option>
+      <option value="Mango con Chile">Mango con Chile</option>
+      <option value="Pay de Limón">Pay de Limón</option>
+    </select>
+
+    <!-- Campo: Cantidad -->
+    <label for="cantidad">Cantidad:</label>
+    <input type="number" id="cantidad" name="cantidad" min="1" placeholder="Ej: 5" required>
+
+    <!-- Campo: Vendedora -->
+    <label for="vendedora">Vendedora:</label>
+    <select id="vendedora" name="vendedora" required>
+      <option value="">Selecciona vendedora</option>
+      <option value="Elena">Elena</option>
+      <option value="Carolina">Carolina</option>
+      <option value="Ana Sofía">Ana Sofía</option>
+    </select>
+
+    <!-- Botón de envío -->
+    <button type="submit">Guardar Venta</button>
+  </form>
+</div>
