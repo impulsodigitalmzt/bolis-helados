@@ -1,0 +1,60 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
+import { SectionTabNav } from '@/components/ui/SectionTabNav';
+import {
+  IconGear,
+  IconIceCream,
+  IconPackage,
+  IconPlus,
+} from '@/components/ui/icons';
+
+const CONFIG_TABS = [
+  {
+    key: 'productos',
+    href: '/configuracion/productos',
+    label: 'Productos',
+    hint: 'Recetas, precios de venta y costos por boli',
+    Icon: IconIceCream,
+  },
+  {
+    key: 'insumos',
+    href: '/configuracion/insumos',
+    label: 'Insumos',
+    hint: 'Precios y tamaño de paquete de materia prima',
+    Icon: IconPackage,
+  },
+  {
+    key: 'produccion',
+    href: '/configuracion/produccion',
+    label: 'Producción',
+    hint: 'Registrar lotes fabricados y stock',
+    Icon: IconPlus,
+  },
+  {
+    key: 'hielera',
+    href: '/configuracion/hielera',
+    label: 'Hielera',
+    hint: 'Carga diaria y sobrantes al cierre de jornada',
+    Icon: IconPackage,
+  },
+  {
+    key: 'negocio',
+    href: '/configuracion/negocio',
+    label: 'Negocio',
+    hint: 'Gastos fijos y modalidad del negocio',
+    Icon: IconGear,
+  },
+] as const;
+
+export function ConfigSubNav() {
+  const pathname = usePathname();
+
+  return (
+    <SectionTabNav
+      items={[...CONFIG_TABS]}
+      pathname={pathname}
+      ariaLabel="Sección de configuración"
+    />
+  );
+}
