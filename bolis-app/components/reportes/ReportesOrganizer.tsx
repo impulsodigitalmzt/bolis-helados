@@ -4,6 +4,7 @@ import { useCallback, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { AlertasYCompras } from '@/components/reportes/AlertasYCompras';
 import { ReportesDashboard } from '@/components/reportes/ReportesDashboard';
+import { BottomToolbarPortal } from '@/components/layout/bottomToolbar';
 import { ReportesNavToolbar } from '@/components/reportes/ReportesNavToolbar';
 import { TableroFinanciero } from '@/components/reportes/TableroFinanciero';
 import {
@@ -98,26 +99,26 @@ export function ReportesOrganizer({
             variant="card"
             equalColumns
             pinned
-            showHint
-            showHintText={false}
-            hintActions={
-              <ReportesNavToolbar
-                activeTab={active}
-                canGoBack={canGoBack}
-                canGoForward={canGoForward}
-                isRefreshing={isRefreshing}
-                onBack={() => {
-                  if (canGoBack) setActive(TAB_ORDER[activeIndex - 1]);
-                }}
-                onForward={() => {
-                  if (canGoForward) setActive(TAB_ORDER[activeIndex + 1]);
-                }}
-                onRestore={handleRestore}
-                onPrint={handlePrint}
-              />
-            }
+            showHint={false}
           />
         </div>
+
+        <BottomToolbarPortal>
+          <ReportesNavToolbar
+            activeTab={active}
+            canGoBack={canGoBack}
+            canGoForward={canGoForward}
+            isRefreshing={isRefreshing}
+            onBack={() => {
+              if (canGoBack) setActive(TAB_ORDER[activeIndex - 1]);
+            }}
+            onForward={() => {
+              if (canGoForward) setActive(TAB_ORDER[activeIndex + 1]);
+            }}
+            onRestore={handleRestore}
+            onPrint={handlePrint}
+          />
+        </BottomToolbarPortal>
 
         <div className="app-container px-4 sm:px-5 lg:px-8">
           <div

@@ -6,9 +6,7 @@ import {
   IconPrinter,
   IconRefresh,
 } from '@/components/ui/icons';
-
-const navBtnClass =
-  'flex h-8 w-8 items-center justify-center rounded-lg border border-stone-400 bg-white text-stone-700 transition hover:border-brand hover:text-brand-dark disabled:cursor-not-allowed disabled:opacity-40';
+import { bottomToolbarBtnClass } from '@/lib/bottomToolbarStyles';
 
 interface ConfigNavToolbarProps {
   canGoBack: boolean;
@@ -31,40 +29,42 @@ export function ConfigNavToolbar({
 }: ConfigNavToolbarProps) {
   return (
     <>
-      <button
-        type="button"
-        disabled={!canGoBack}
-        onClick={onBack}
-        className={navBtnClass}
-        aria-label="Pestaña anterior"
-      >
-        <IconChevronLeft className="h-4 w-4" aria-hidden />
-      </button>
-      <button
-        type="button"
-        disabled={!canGoForward}
-        onClick={onForward}
-        className={navBtnClass}
-        aria-label="Pestaña siguiente"
-      >
-        <IconChevronRight className="h-4 w-4" aria-hidden />
-      </button>
-      <button
-        type="button"
-        disabled={isRefreshing}
-        onClick={onRestore}
-        className={navBtnClass}
-        aria-label="Restaurar datos"
-      >
-        <IconRefresh
-          className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`}
-          aria-hidden
-        />
-      </button>
+      <div className="flex items-center gap-1 md:hidden">
+        <button
+          type="button"
+          disabled={!canGoBack}
+          onClick={onBack}
+          className={bottomToolbarBtnClass}
+          aria-label="Pestaña anterior"
+        >
+          <IconChevronLeft className="h-4 w-4" aria-hidden />
+        </button>
+        <button
+          type="button"
+          disabled={!canGoForward}
+          onClick={onForward}
+          className={bottomToolbarBtnClass}
+          aria-label="Pestaña siguiente"
+        >
+          <IconChevronRight className="h-4 w-4" aria-hidden />
+        </button>
+        <button
+          type="button"
+          disabled={isRefreshing}
+          onClick={onRestore}
+          className={bottomToolbarBtnClass}
+          aria-label="Restaurar datos"
+        >
+          <IconRefresh
+            className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`}
+            aria-hidden
+          />
+        </button>
+      </div>
       <button
         type="button"
         onClick={onPrint}
-        className={navBtnClass}
+        className={bottomToolbarBtnClass}
         aria-label="Imprimir"
       >
         <IconPrinter className="h-4 w-4" aria-hidden />

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { IconPrinter } from '@/components/ui/icons';
 import type { ReportesPrintScope } from '@/components/reportes/print/ReportesPrintDocument';
+import { bottomToolbarBtnClass } from '@/lib/bottomToolbarStyles';
 
 type ReportTabId = Exclude<ReportesPrintScope, 'all'>;
 
@@ -17,12 +18,15 @@ interface ReportesPrintMenuProps {
   activeTab: ReportTabId;
   onPrint: (scope: ReportesPrintScope) => void;
   disabled?: boolean;
+  /** Abre el menú hacia arriba (p. ej. barra inferior). */
+  openAbove?: boolean;
 }
 
 export function ReportesPrintMenu({
   activeTab,
   onPrint,
   disabled = false,
+  openAbove = false,
 }: ReportesPrintMenuProps) {
   const [open, setOpen] = useState(false);
   const [menuStyle, setMenuStyle] = useState<{
@@ -39,6 +43,7 @@ export function ReportesPrintMenu({
 
     const rect = button.getBoundingClientRect();
     const menuWidth = 192;
+    const menuHeight = 96;
     const padding = 8;
     const left = Math.min(
       Math.max(padding, rect.right - menuWidth),
@@ -46,7 +51,9 @@ export function ReportesPrintMenu({
     );
 
     setMenuStyle({
-      top: rect.bottom + 6,
+      top: openAbove
+        ? Math.max(padding, rect.top - menuHeight - 6)
+        : rect.bottom + 6,
       left,
       width: menuWidth,
     });
@@ -150,7 +157,7 @@ export function ReportesPrintMenu({
               return next;
             });
           }}
-          className="flex h-9 w-9 items-center justify-center rounded-xl border border-stone-400 bg-white text-stone-700 shadow-sm transition hover:border-brand hover:text-brand-dark disabled:opacity-50"
+          className={bottomToolbarBtnClass}
         >
           <IconPrinter className="h-5 w-5" aria-hidden />
         </button>

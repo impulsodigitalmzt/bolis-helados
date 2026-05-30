@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useMemo, useTransition } from 'react';
 import { ConfigNavToolbar } from '@/components/configuracion/ConfigNavToolbar';
+import { BottomToolbarPortal } from '@/components/layout/bottomToolbar';
 import { SectionTabNav } from '@/components/ui/SectionTabNav';
 import {
   SECTION_FIXED_HEADER_CLASS,
@@ -75,32 +76,34 @@ export function ConfigSubNav() {
   }, [router]);
 
   return (
-    <div className={SECTION_FIXED_HEADER_CLASS}>
-      <SectionTabNav
-        items={[...CONFIG_TABS]}
-        pathname={pathname}
-        ariaLabel="Sección de configuración"
-        variant="card"
-        equalColumns
-        pinned
-          showHint
-          showHintText={false}
-          hintActions={
-          <ConfigNavToolbar
-            canGoBack={canGoBack}
-            canGoForward={canGoForward}
-            isRefreshing={isRefreshing}
-            onBack={() => {
-              if (canGoBack) router.push(CONFIG_TABS[activeIndex - 1].href);
-            }}
-            onForward={() => {
-              if (canGoForward) router.push(CONFIG_TABS[activeIndex + 1].href);
-            }}
-            onRestore={handleRestore}
-            onPrint={() => window.print()}
-          />
-        }
-      />
-    </div>
+    <>
+      <div className={SECTION_FIXED_HEADER_CLASS}>
+        <SectionTabNav
+          items={[...CONFIG_TABS]}
+          pathname={pathname}
+          ariaLabel="Sección de configuración"
+          variant="card"
+          equalColumns
+          pinned
+          showHint={false}
+        />
+      </div>
+
+      <BottomToolbarPortal>
+        <ConfigNavToolbar
+          canGoBack={canGoBack}
+          canGoForward={canGoForward}
+          isRefreshing={isRefreshing}
+          onBack={() => {
+            if (canGoBack) router.push(CONFIG_TABS[activeIndex - 1].href);
+          }}
+          onForward={() => {
+            if (canGoForward) router.push(CONFIG_TABS[activeIndex + 1].href);
+          }}
+          onRestore={handleRestore}
+          onPrint={() => window.print()}
+        />
+      </BottomToolbarPortal>
+    </>
   );
 }

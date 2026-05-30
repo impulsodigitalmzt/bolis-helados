@@ -126,14 +126,14 @@ input[type='date'] {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* Altura de chrome fijo: pestañas + barra de acciones */
+/* Altura de chrome fijo: solo fila de pestañas */
 :root {
-  --section-chrome-height: calc(6.5rem + env(safe-area-inset-top, 0px));
+  --section-chrome-height: calc(4.75rem + env(safe-area-inset-top, 0px));
 }
 
 @media (min-width: 768px) {
   :root {
-    --section-chrome-height: calc(6.5rem + env(safe-area-inset-top, 0px));
+    --section-chrome-height: calc(5rem + env(safe-area-inset-top, 0px));
   }
 }
 
