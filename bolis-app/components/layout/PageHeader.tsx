@@ -18,8 +18,8 @@ export function PageHeader({
         <span className="badge-brand">Bolis &amp; Más</span>
       </div>
       <h1
-        className={`font-extrabold leading-tight tracking-tight text-stone-900 ${
-          compact ? 'text-xl' : 'text-[1.65rem]'
+        className={`break-words font-extrabold leading-tight tracking-tight text-stone-900 ${
+          compact ? 'text-lg sm:text-xl' : 'text-xl sm:text-[1.65rem]'
         }`}
       >
         {title}

@@ -11,6 +11,7 @@ export default function ConfiguracionLayout({
       <PageHeader
         title="Configuración"
         subtitle="Costos por receta · precios e insumos"
+        className="!mb-4 md:!mb-7"
       />
       <ConfigSubNav />
       {children}

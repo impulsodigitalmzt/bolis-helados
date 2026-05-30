@@ -260,12 +260,12 @@ export function InsumosConfigList({ initialInsumos }: InsumosConfigListProps) {
       </div>
 
       {showNew ? (
-        <div className="card-premium mb-3 grid gap-2 p-3 sm:grid-cols-5">
+        <div className="card-premium mb-3 grid gap-2 p-3 md:grid-cols-5">
           <input
             placeholder="Nombre"
             value={newNombre}
             onChange={(e) => setNewNombre(e.target.value)}
-            className={`${compactInputClass} sm:col-span-2`}
+            className={`${compactInputClass} md:col-span-2`}
           />
           <input
             type="number"
@@ -306,7 +306,7 @@ export function InsumosConfigList({ initialInsumos }: InsumosConfigListProps) {
 
       <div className="card-premium overflow-hidden">
         {/* Encabezado escritorio */}
-        <div className="hidden border-b border-stone-100 bg-stone-50/80 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-stone-400 sm:grid sm:grid-cols-[minmax(0,1.6fr)_5rem_5rem_2.5rem_5rem] sm:gap-2">
+        <div className="hidden border-b border-stone-100 bg-stone-50/80 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-stone-400 md:grid md:grid-cols-[minmax(0,1.6fr)_5rem_5rem_2.5rem_5rem] md:gap-2">
           <span>
             Insumo ({initialInsumos.length})
           </span>
@@ -324,12 +324,12 @@ export function InsumosConfigList({ initialInsumos }: InsumosConfigListProps) {
             return (
               <li
                 key={insumo.id}
-                className={`px-3 py-2.5 transition-colors sm:grid sm:grid-cols-[minmax(0,1.6fr)_5rem_5rem_2.5rem_5rem] sm:items-start sm:gap-2 sm:py-2 ${
+                className={`px-3 py-2.5 transition-colors md:grid md:grid-cols-[minmax(0,1.6fr)_5rem_5rem_2.5rem_5rem] md:items-start md:gap-2 md:py-2 ${
                   dirty ? 'bg-orange-50' : 'hover:bg-stone-50/50'
                 }`}
               >
                 {/* Móvil + columna nombre */}
-                <div className="min-w-0 sm:col-span-1">
+                <div className="min-w-0 md:col-span-1">
                   <p
                     className="text-sm font-semibold leading-snug text-stone-900 break-words"
                     title={insumo.nombre}
@@ -384,8 +384,8 @@ export function InsumosConfigList({ initialInsumos }: InsumosConfigListProps) {
                 </div>
 
                 {/* Precio actual — visible en ambos */}
-                <div className="mt-1.5 flex items-center justify-between gap-2 sm:mt-1 sm:block sm:text-right">
-                  <span className="text-[10px] font-semibold uppercase text-stone-400 sm:hidden">
+                <div className="mt-1.5 flex items-center justify-between gap-2 md:mt-1 md:block md:text-right">
+                  <span className="text-[10px] font-semibold uppercase text-stone-400 md:hidden">
                     Actual
                   </span>
                   <div className="text-right">
@@ -401,18 +401,18 @@ export function InsumosConfigList({ initialInsumos }: InsumosConfigListProps) {
                         {formatCurrency(insumo.precio_oferta)}
                       </p>
                     ) : null}
-                    <p className="hidden text-[10px] text-stone-400 sm:block">
+                    <p className="hidden text-[10px] text-stone-400 md:block">
                       ef. {formatCurrency(precioEfectivoInsumo(insumo))}
                     </p>
                   </div>
                 </div>
 
                 {/* Nuevo precio */}
-                <div className="mt-1 flex items-center gap-2 sm:mt-1">
-                  <span className="w-14 shrink-0 text-[10px] font-semibold uppercase text-stone-400 sm:hidden">
+                <div className="mt-1 flex items-center gap-2 md:mt-1">
+                  <span className="w-14 shrink-0 text-[10px] font-semibold uppercase text-stone-400 md:hidden">
                     Nuevo
                   </span>
-                  <div className="relative flex-1 sm:flex-none">
+                  <div className="relative flex-1 md:flex-none">
                     <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-xs text-stone-400">
                       $
                     </span>
@@ -430,8 +430,8 @@ export function InsumosConfigList({ initialInsumos }: InsumosConfigListProps) {
                 </div>
 
                 {/* Oferta checkbox */}
-                <div className="mt-1 flex items-center gap-2 sm:mt-1 sm:justify-center">
-                  <span className="text-[10px] font-semibold uppercase text-stone-400 sm:sr-only">
+                <div className="mt-1 flex items-center gap-2 md:mt-1 md:justify-center">
+                  <span className="text-[10px] font-semibold uppercase text-stone-400 md:sr-only">
                     Oferta
                   </span>
                   <label className="flex cursor-pointer items-center gap-1.5">
@@ -448,16 +448,16 @@ export function InsumosConfigList({ initialInsumos }: InsumosConfigListProps) {
                       }
                       className="h-4 w-4 rounded border-stone-300 text-brand focus:ring-brand/30"
                     />
-                    <span className="text-xs text-stone-600 sm:hidden">Oferta</span>
+                    <span className="text-xs text-stone-600 md:hidden">Oferta</span>
                   </label>
                 </div>
 
                 {/* Precio oferta */}
-                <div className="mt-1 flex items-center gap-2 sm:mt-1">
-                  <span className="w-14 shrink-0 text-[10px] font-semibold uppercase text-stone-400 sm:hidden">
+                <div className="mt-1 flex items-center gap-2 md:mt-1">
+                  <span className="w-14 shrink-0 text-[10px] font-semibold uppercase text-stone-400 md:hidden">
                     $ Oferta
                   </span>
-                  <div className="relative flex-1 sm:flex-none">
+                  <div className="relative flex-1 md:flex-none">
                     <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-xs text-stone-400">
                       $
                     </span>
@@ -484,7 +484,7 @@ export function InsumosConfigList({ initialInsumos }: InsumosConfigListProps) {
       {/* Espacio para botón flotante */}
       <div className="h-20" aria-hidden />
 
-      <div className="fixed bottom-[4.75rem] left-0 right-0 z-40">
+      <div className="fixed bottom-[4.75rem] left-0 right-0 z-40 safe-area-pb">
         <div className="app-container">
         <button
           type="button"

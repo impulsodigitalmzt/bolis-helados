@@ -164,16 +164,16 @@ export function SaboresProductosList({ initialSabores }: SaboresProductosListPro
 
           return (
             <article key={sabor.id} className="card-premium overflow-hidden">
-              <div className="card-premium-header flex items-start justify-between gap-3 px-4 py-3">
-                <div>
-                  <h3 className="font-bold text-stone-900">{sabor.nombre}</h3>
+              <div className="card-premium-header flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-start sm:justify-between">
+                <div className="min-w-0">
+                  <h3 className="break-words font-bold text-stone-900">{sabor.nombre}</h3>
                   <span
                     className={`mt-1 inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ring-1 ring-inset ${tipoBadgeClass(sabor.tipo)}`}
                   >
                     {sabor.tipo}
                   </span>
                 </div>
-                <div className="text-right">
+                <div className="shrink-0 text-left sm:text-right">
                   <p className="text-[10px] font-bold uppercase tracking-wide text-stone-700">
                     Costo / boli
                   </p>

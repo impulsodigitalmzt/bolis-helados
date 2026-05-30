@@ -48,11 +48,17 @@
   --color-stone-950: #0a0908;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  min-width: 0;
 }
 
 .card-premium {
@@ -119,6 +125,14 @@ body {
   margin-right: auto;
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .app-container {
+    max-width: 36rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
 }
 
 @media (min-width: 768px) {

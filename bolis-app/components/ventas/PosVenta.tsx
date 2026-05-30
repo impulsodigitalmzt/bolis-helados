@@ -121,14 +121,14 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
 
       <div className="card-premium mb-4 space-y-3 p-3 sm:p-4">
         <div
-          className="relative flex min-h-[2.75rem] items-center justify-center"
+          className="relative flex min-h-[2.75rem] items-center justify-center px-12"
           ref={vendedoraMenuRef}
         >
-          <div className="text-center">
+          <div className="min-w-0 max-w-full text-center">
             <p className="text-[10px] font-bold uppercase tracking-wide text-stone-500">
               Vendedor
             </p>
-            <p className="text-base font-extrabold text-stone-900">
+            <p className="truncate text-base font-extrabold text-stone-900">
               {vendedoraNombre}
             </p>
           </div>
@@ -149,7 +149,7 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
                 <IconUsers className="h-5 w-5" />
               </button>
               {vendedoraMenuOpen ? (
-                <div className="absolute right-0 top-full z-20 mt-1 w-56 rounded-xl border-2 border-stone-300 bg-white p-2 shadow-lg">
+                <div className="absolute right-0 top-full z-20 mt-1 w-[min(14rem,calc(100vw-2rem))] rounded-xl border-2 border-stone-300 bg-white p-2 shadow-lg">
                   <select
                     id="pos-vendedora"
                     value={vendedoraId}

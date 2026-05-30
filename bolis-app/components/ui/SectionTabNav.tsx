@@ -30,12 +30,6 @@ interface SectionTabNavProps {
   variant?: 'card' | 'dock';
 }
 
-const GRID_COLS: Record<number, string> = {
-  2: 'grid-cols-2',
-  3: 'grid-cols-3',
-  4: 'grid-cols-4',
-};
-
 function isActiveLink(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
@@ -60,7 +54,7 @@ function TabButton({
           ? 'font-semibold text-brand-dark'
           : 'font-semibold text-stone-800 hover:text-stone-950'
       }`
-    : `flex flex-col items-center gap-1 px-1.5 py-3 text-center transition sm:px-2 sm:py-3.5 ${
+    : `flex min-w-[4.25rem] shrink-0 flex-col items-center gap-1 px-1.5 py-3 text-center transition md:min-w-0 md:px-2 md:py-3.5 ${
         isActive
           ? 'bg-brand text-white'
           : 'bg-stone-100 text-stone-800 hover:bg-stone-200'
@@ -77,7 +71,7 @@ function TabButton({
       >
         <Icon className="h-5 w-5" strokeWidth={isActive ? 2.5 : 2} />
       </span>
-      <span className="text-[11px] leading-tight">{item.label}</span>
+      <span className="text-[11px] leading-tight line-clamp-2">{item.label}</span>
     </>
   ) : (
     <>
@@ -91,7 +85,7 @@ function TabButton({
           strokeWidth={isActive ? 2.5 : 2}
         />
       </span>
-      <span className="text-[10px] font-bold leading-tight sm:text-[11px]">
+      <span className="text-[10px] font-bold leading-tight sm:text-[11px] line-clamp-2">
         {item.label}
       </span>
     </>
@@ -138,8 +132,16 @@ export function SectionTabNav({
     items[0]?.key;
 
   const current = items.find((item) => item.key === resolvedActive) ?? items[0];
-  const gridCols = GRID_COLS[items.length] ?? 'grid-cols-2';
   const isDock = variant === 'dock';
+  const scrollableTabs = !isDock && items.length >= 5;
+  const cardGridClass =
+    items.length === 2
+      ? 'grid-cols-2'
+      : items.length === 3
+        ? 'grid-cols-3'
+        : items.length === 4
+          ? 'grid-cols-2 md:grid-cols-4'
+          : 'md:grid-cols-5';
 
   const tabButtons = items.map((item) => {
     const isActive =
@@ -171,15 +173,21 @@ export function SectionTabNav({
       <div
         className={
           isDock
-            ? 'flex h-[4.25rem] items-center gap-0.5 px-1.5'
+            ? 'flex min-h-[4.25rem] items-center gap-0.5 px-1.5 py-1'
             : 'flex items-stretch'
         }
       >
         {isDock ? (
           tabButtons
+        ) : scrollableTabs ? (
+          <div className="flex min-w-0 flex-1 overflow-x-auto overscroll-x-contain md:overflow-visible">
+            <div className="flex min-w-max flex-1 divide-x-2 divide-stone-300 md:grid md:min-w-0 md:grid-cols-5">
+              {tabButtons}
+            </div>
+          </div>
         ) : (
           <div
-            className={`grid min-w-0 flex-1 ${gridCols} divide-x-2 divide-stone-300`}
+            className={`grid min-w-0 flex-1 divide-x-2 divide-stone-300 ${cardGridClass}`}
           >
             {tabButtons}
           </div>
@@ -187,7 +195,7 @@ export function SectionTabNav({
         {trailing}
       </div>
       {showHint && current?.hint ? (
-        <p className="border-t-2 border-stone-300 bg-stone-200 px-3 py-2.5 text-center text-xs font-medium text-stone-800">
+        <p className="border-t-2 border-stone-300 bg-stone-200 px-3 py-2.5 text-center text-xs font-medium leading-snug text-stone-800 break-words">
           {current.hint}
         </p>
       ) : null}

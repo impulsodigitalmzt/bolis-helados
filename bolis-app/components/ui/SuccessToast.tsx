@@ -22,14 +22,14 @@ export function SuccessToast({
     <div
       role="status"
       aria-live="polite"
-      className="fixed left-0 right-0 top-4 z-[70]"
+      className="fixed left-0 right-0 top-4 z-[70] pt-[env(safe-area-inset-top,0px)]"
     >
       <div className="app-container">
       <div className="flex items-start gap-3 rounded-2xl border border-emerald-200/80 bg-emerald-50 px-4 py-3.5 shadow-lg shadow-emerald-100/50">
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-sm font-bold text-white">
           ✓
         </span>
-        <p className="flex-1 pt-1 text-sm font-medium text-emerald-900">
+        <p className="min-w-0 flex-1 break-words pt-1 text-sm font-medium text-emerald-900">
           {message}
         </p>
         <button
