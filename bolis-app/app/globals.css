@@ -61,6 +61,12 @@ body {
   min-width: 0;
 }
 
+input[type='date'] {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 .card-premium {
   border-radius: 1rem;
   border: 2px solid var(--card-border);

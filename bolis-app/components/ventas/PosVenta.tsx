@@ -119,7 +119,7 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
         />
       ) : null}
 
-      <div className="card-premium mb-4 space-y-3 p-3 sm:p-4">
+      <div className="card-premium mb-4 min-w-0 space-y-3 overflow-hidden p-3 sm:p-4">
         <div
           className="relative flex min-h-[2.75rem] items-center justify-center px-12"
           ref={vendedoraMenuRef}
@@ -176,7 +176,7 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
           ) : null}
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-3">
           <div className="min-w-0">
             <label htmlFor="pos-fecha" className={fieldLabelClass}>
               Fecha
@@ -187,12 +187,13 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
               value={fecha}
               disabled={isPending}
               onChange={(e) => setFecha(e.target.value)}
-              className={fieldInputClass}
+              className={`${fieldInputClass} min-w-0 max-w-full text-sm sm:text-base`}
             />
           </div>
           <div className="min-w-0">
             <label htmlFor="pos-cantidad" className={fieldLabelClass}>
-              Cantidad por venta
+              <span className="sm:hidden">Cantidad</span>
+              <span className="hidden sm:inline">Cantidad por venta</span>
             </label>
             <input
               id="pos-cantidad"
@@ -203,7 +204,7 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
               value={cantidad}
               disabled={isPending}
               onChange={(e) => setCantidad(e.target.value)}
-              className={`${fieldInputClass} tabular-nums`}
+              className={`${fieldInputClass} min-w-0 max-w-full tabular-nums`}
             />
           </div>
         </div>
