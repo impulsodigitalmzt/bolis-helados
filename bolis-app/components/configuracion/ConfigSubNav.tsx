@@ -80,8 +80,8 @@ export function ConfigSubNav() {
         items={[...CONFIG_TABS]}
         pathname={pathname}
         ariaLabel="Sección de configuración"
-        equalColumns
-          pinned
+        variant="dock"
+        pinned
           showHint
           showHintText={false}
           hintActions={

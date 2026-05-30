@@ -95,6 +95,7 @@ export function ReportesOrganizer({
             activeKey={active}
             onActiveChange={(key) => setActive(key as TabId)}
             ariaLabel="Secciones de reportes"
+            variant="dock"
             pinned
             showHint
             showHintText={false}

@@ -62,7 +62,7 @@ function TabButton({
   const isDock = variant === 'dock';
 
   const tabClass = isDock
-    ? `relative flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-2xl py-2.5 text-center transition ${
+    ? `relative flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-2xl py-2 text-[11px] transition-all ${
         isActive
           ? 'font-semibold text-brand-dark'
           : 'font-semibold text-stone-800 hover:text-stone-950'
@@ -214,7 +214,7 @@ export function SectionTabNav({
       <div
         className={
           isDock
-            ? 'flex min-h-[4.25rem] items-center gap-0.5 px-1.5 py-1'
+            ? 'flex min-h-[4.25rem] items-center justify-around gap-0.5 px-1.5 py-1'
             : 'flex items-stretch'
         }
       >
