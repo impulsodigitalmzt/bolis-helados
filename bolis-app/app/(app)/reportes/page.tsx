@@ -98,7 +98,7 @@ export default async function ReportesPage() {
 
   return (
     <div className="no-print">
-      <PageHeader title="Reportes" compact />
+      <PageHeader title="Reportes" compact className="hidden md:block md:mb-3" />
 
       {errorMessage ? (
         <div className="alert-warning mb-3">{errorMessage}</div>

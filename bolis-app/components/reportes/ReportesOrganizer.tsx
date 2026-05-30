@@ -64,7 +64,7 @@ export function ReportesOrganizer({
   return (
     <>
       <div className="no-print">
-        <div className="sticky top-0 z-50">
+        <div className="fixed inset-x-0 top-0 z-40 border-b-2 border-stone-500 bg-stone-200 pt-[env(safe-area-inset-top,0px)] shadow-[0_6px_24px_rgb(0_0_0_/0.18)] md:relative md:inset-auto md:mb-4 md:border-b-0 md:bg-transparent md:pt-0 md:shadow-none">
           <SectionTabNav
             variant="dock"
             items={[...REPORT_TABS]}
@@ -73,26 +73,29 @@ export function ReportesOrganizer({
             ariaLabel="Secciones de reportes"
             className="mb-0"
             showHint={false}
+            pinned
             trailing={
               <ReportesPrintMenu activeTab={active} onPrint={handlePrint} />
             }
           />
         </div>
 
-        <div className="card-premium mt-4 min-w-0 max-w-full overflow-x-hidden rounded-2xl p-4 sm:p-6 lg:p-8">
-          {active === 'finanzas' ? (
-            <TableroFinanciero data={tablero} embedded />
-          ) : null}
-          {active === 'inventario' ? (
-            <AlertasYCompras initialData={alertas} embedded />
-          ) : null}
-          {active === 'ventas' ? (
-            <ReportesDashboard
-              initialData={ventas}
-              embedded
-              onDataChange={setVentasData}
-            />
-          ) : null}
+        <div className="pt-[calc(4.25rem+env(safe-area-inset-top,0px))] md:pt-0">
+          <div className="card-premium mt-4 min-w-0 max-w-full overflow-x-hidden rounded-2xl p-4 sm:p-6 lg:p-8">
+            {active === 'finanzas' ? (
+              <TableroFinanciero data={tablero} embedded />
+            ) : null}
+            {active === 'inventario' ? (
+              <AlertasYCompras initialData={alertas} embedded />
+            ) : null}
+            {active === 'ventas' ? (
+              <ReportesDashboard
+                initialData={ventas}
+                embedded
+                onDataChange={setVentasData}
+              />
+            ) : null}
+          </div>
         </div>
       </div>
 

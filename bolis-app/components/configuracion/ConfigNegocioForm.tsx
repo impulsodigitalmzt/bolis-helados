@@ -217,7 +217,22 @@ export function ConfigNegocioForm({ initialConfig }: ConfigNegocioFormProps) {
         </div>
       )}
 
-      <div className="card-premium mb-20 space-y-2 p-4 text-sm">
+      {error ? (
+        <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+          {error}
+        </div>
+      ) : null}
+
+      <button
+        type="button"
+        disabled={isPending}
+        onClick={handleSave}
+        className={`${primaryButtonClass} mb-4`}
+      >
+        {isPending ? 'Guardando…' : 'Guardar configuración'}
+      </button>
+
+      <div className="card-premium mb-4 space-y-2 p-4 text-sm">
         <p className="font-bold text-stone-800">Resumen de gastos fijos</p>
         <div className="flex justify-between text-stone-600">
           <span>Modo activo ({draft.modalidad === 'casa' ? 'Casa' : 'Local'})</span>
@@ -239,25 +254,6 @@ export function ConfigNegocioForm({ initialConfig }: ConfigNegocioFormProps) {
             </span>
           </div>
         ) : null}
-      </div>
-
-      {error ? (
-        <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-          {error}
-        </div>
-      ) : null}
-
-      <div className="fixed bottom-[4.75rem] left-0 right-0 z-40 border-t border-stone-200/90 bg-white/95 px-3 py-3 shadow-[0_-8px_24px_rgb(0_0_0_/0.08)] backdrop-blur-sm safe-area-pb">
-        <div className="app-container">
-          <button
-            type="button"
-            disabled={isPending}
-            onClick={handleSave}
-            className={primaryButtonClass}
-          >
-            {isPending ? 'Guardando…' : 'Guardar configuración'}
-          </button>
-        </div>
       </div>
     </>
   );
