@@ -28,6 +28,10 @@ interface SectionTabNavProps {
   showHint?: boolean;
   /** `dock`: barra tipo BottomNav; `card`: tarjeta con bordes redondeados. */
   variant?: 'card' | 'dock';
+  /** En móvil: reparte N pestañas en columnas iguales (sin scroll horizontal). */
+  equalColumns?: boolean;
+  /** Sin margen inferior (p. ej. barra fija arriba). */
+  pinned?: boolean;
 }
 
 function isActiveLink(pathname: string, href: string): boolean {
@@ -54,7 +58,7 @@ function TabButton({
           ? 'font-semibold text-brand-dark'
           : 'font-semibold text-stone-800 hover:text-stone-950'
       }`
-    : `flex min-w-[4.25rem] shrink-0 flex-col items-center gap-1 px-1.5 py-3 text-center transition md:min-w-0 md:px-2 md:py-3.5 ${
+    : `flex min-w-0 flex-col items-center gap-0.5 px-0.5 py-2 text-center transition sm:gap-1 sm:px-1.5 sm:py-3 md:px-2 md:py-3.5 ${
         isActive
           ? 'bg-brand text-white'
           : 'bg-stone-100 text-stone-800 hover:bg-stone-200'
@@ -85,7 +89,7 @@ function TabButton({
           strokeWidth={isActive ? 2.5 : 2}
         />
       </span>
-      <span className="text-[10px] font-bold leading-tight sm:text-[11px] line-clamp-2">
+      <span className="text-[9px] font-bold leading-tight sm:text-[10px] md:text-[11px] line-clamp-2">
         {item.label}
       </span>
     </>
@@ -125,6 +129,8 @@ export function SectionTabNav({
   trailing,
   showHint = true,
   variant = 'card',
+  equalColumns = false,
+  pinned = false,
 }: SectionTabNavProps) {
   const resolvedActive =
     activeKey ??
@@ -133,9 +139,17 @@ export function SectionTabNav({
 
   const current = items.find((item) => item.key === resolvedActive) ?? items[0];
   const isDock = variant === 'dock';
-  const scrollableTabs = !isDock && items.length >= 5;
-  const cardGridClass =
-    items.length === 2
+  const scrollableTabs =
+    !isDock && !equalColumns && items.length >= 5;
+  const cardGridClass = equalColumns
+    ? items.length === 5
+      ? 'grid-cols-5'
+      : items.length === 4
+        ? 'grid-cols-4'
+        : items.length === 3
+          ? 'grid-cols-3'
+          : 'grid-cols-2'
+    : items.length === 2
       ? 'grid-cols-2'
       : items.length === 3
         ? 'grid-cols-3'
@@ -163,10 +177,12 @@ export function SectionTabNav({
 
   return (
     <nav
-      className={`mb-6 !p-0 ${
+      className={`${pinned ? 'mb-0' : 'mb-6'} !p-0 ${
         isDock
           ? 'w-full overflow-hidden border-b-2 border-stone-500 bg-stone-200 shadow-[0_6px_24px_rgb(0_0_0_/0.18)]'
-          : `card-premium ${trailing ? 'overflow-visible' : 'overflow-hidden'}`
+          : `card-premium ${trailing ? 'overflow-visible' : 'overflow-hidden'} ${
+              pinned ? '!rounded-none !border-x-0 !border-t-0 !shadow-none' : ''
+            }`
       } ${className}`}
       aria-label={ariaLabel}
     >

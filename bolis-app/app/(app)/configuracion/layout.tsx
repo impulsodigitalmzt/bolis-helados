@@ -11,10 +11,11 @@ export default function ConfiguracionLayout({
       <PageHeader
         title="Configuración"
         subtitle="Costos por receta · precios e insumos"
-        className="!mb-4 md:!mb-7"
+        className="hidden md:block md:!mb-7"
       />
       <ConfigSubNav />
-      {children}
+      {/* Espacio bajo la barra fija de Config en móvil (tabs + hint) */}
+      <div className="min-w-0 pt-[5.85rem] md:pt-0">{children}</div>
     </>
   );
 }

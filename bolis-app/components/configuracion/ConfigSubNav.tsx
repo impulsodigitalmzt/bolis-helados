@@ -51,10 +51,14 @@ export function ConfigSubNav() {
   const pathname = usePathname();
 
   return (
-    <SectionTabNav
-      items={[...CONFIG_TABS]}
-      pathname={pathname}
-      ariaLabel="Sección de configuración"
-    />
+    <div className="no-print fixed inset-x-0 top-0 z-40 border-b-2 border-stone-500 bg-stone-200 pt-[env(safe-area-inset-top,0px)] shadow-[0_6px_24px_rgb(0_0_0_/0.18)] md:relative md:inset-auto md:mb-6 md:border-b-0 md:bg-transparent md:pt-0 md:shadow-none">
+      <SectionTabNav
+        items={[...CONFIG_TABS]}
+        pathname={pathname}
+        ariaLabel="Sección de configuración"
+        equalColumns
+        pinned
+      />
+    </div>
   );
 }
