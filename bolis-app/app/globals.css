@@ -126,6 +126,21 @@ input[type='date'] {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
+/* Altura de chrome fijo: Reportes / Config (móvil vs tablet/PC) */
+:root {
+  --section-chrome-height: calc(5.85rem + env(safe-area-inset-top, 0px));
+}
+
+@media (min-width: 768px) {
+  :root {
+    --section-chrome-height: calc(10.75rem + env(safe-area-inset-top, 0px));
+  }
+}
+
+.section-content-offset {
+  padding-top: var(--section-chrome-height);
+}
+
 /* Ancho adaptable: móvil estrecho → tablet → PC */
 .app-container {
   width: 100%;

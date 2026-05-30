@@ -5,6 +5,10 @@ import { useCallback, useMemo, useTransition } from 'react';
 import { ConfigNavToolbar } from '@/components/configuracion/ConfigNavToolbar';
 import { SectionTabNav } from '@/components/ui/SectionTabNav';
 import {
+  SECTION_CONTENT_OFFSET_CLASS,
+  SECTION_FIXED_HEADER_CLASS,
+} from '@/lib/sectionChrome';
+import {
   IconGear,
   IconIceCream,
   IconPackage,
@@ -72,29 +76,34 @@ export function ConfigSubNav() {
   }, [router]);
 
   return (
-    <div className="no-print fixed inset-x-0 top-0 z-40 border-b-2 border-stone-500 bg-stone-200 pt-[env(safe-area-inset-top,0px)] shadow-[0_6px_24px_rgb(0_0_0_/0.18)] md:relative md:inset-auto md:mb-6 md:border-b-0 md:bg-transparent md:pt-0 md:shadow-none">
-      <SectionTabNav
-        items={[...CONFIG_TABS]}
-        pathname={pathname}
-        ariaLabel="Sección de configuración"
-        equalColumns
-        pinned
-        hintActions={
-          <ConfigNavToolbar
-            canGoBack={canGoBack}
-            canGoForward={canGoForward}
-            isRefreshing={isRefreshing}
-            onBack={() => {
-              if (canGoBack) router.push(CONFIG_TABS[activeIndex - 1].href);
-            }}
-            onForward={() => {
-              if (canGoForward) router.push(CONFIG_TABS[activeIndex + 1].href);
-            }}
-            onRestore={handleRestore}
-            onPrint={() => window.print()}
-          />
-        }
-      />
+    <div className={SECTION_FIXED_HEADER_CLASS}>
+      <div className="app-container !px-0 md:!px-4 lg:!px-6">
+        <SectionTabNav
+          items={[...CONFIG_TABS]}
+          pathname={pathname}
+          ariaLabel="Sección de configuración"
+          equalColumns
+          pinned
+          showHint
+          showBrand
+          sectionTitle="Configuración"
+          hintActions={
+            <ConfigNavToolbar
+              canGoBack={canGoBack}
+              canGoForward={canGoForward}
+              isRefreshing={isRefreshing}
+              onBack={() => {
+                if (canGoBack) router.push(CONFIG_TABS[activeIndex - 1].href);
+              }}
+              onForward={() => {
+                if (canGoForward) router.push(CONFIG_TABS[activeIndex + 1].href);
+              }}
+              onRestore={handleRestore}
+              onPrint={() => window.print()}
+            />
+          }
+        />
+      </div>
     </div>
   );
 }

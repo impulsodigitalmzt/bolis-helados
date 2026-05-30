@@ -1,6 +1,6 @@
 import { ReportesOrganizer } from '@/components/reportes/ReportesOrganizer';
-import { PageHeader } from '@/components/layout/PageHeader';
 import { CONFIG_NEGOCIO_DEFAULT } from '@/lib/queries/configNegocio';
+import { SECTION_CONTENT_OFFSET_CLASS } from '@/lib/sectionChrome';
 import { getAlertasYCompras } from '@/lib/queries/gestionInteligente';
 import {
   getTableroFinanciero,
@@ -97,14 +97,12 @@ export default async function ReportesPage() {
   }
 
   return (
-    <>
-      <PageHeader title="Reportes" compact className="no-print hidden md:block md:mb-3" />
-
+    <div className={SECTION_CONTENT_OFFSET_CLASS}>
       {errorMessage ? (
         <div className="alert-warning no-print mb-3">{errorMessage}</div>
       ) : null}
 
       <ReportesOrganizer tablero={tablero} alertas={alertas} ventas={ventas} />
-    </>
+    </div>
   );
 }

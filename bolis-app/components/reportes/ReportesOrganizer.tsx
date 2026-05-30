@@ -15,6 +15,9 @@ import { SectionTabNav } from '@/components/ui/SectionTabNav';
 import type { AlertasYComprasData } from '@/lib/queries/gestionInteligente';
 import type { TableroFinanciero as TableroFinancieroData } from '@/lib/queries/finanzas';
 import type { ReportesData } from '@/lib/queries/reportes';
+import {
+  SECTION_FIXED_HEADER_CLASS,
+} from '@/lib/sectionChrome';
 import { IconChart, IconPackage, IconTrending } from '@/components/ui/icons';
 
 type TabId = 'finanzas' | 'inventario' | 'ventas';
@@ -86,39 +89,42 @@ export function ReportesOrganizer({
   return (
     <>
       <div className="no-print">
-        <div className="fixed inset-x-0 top-0 z-40 border-b-2 border-stone-500 bg-stone-200 pt-[env(safe-area-inset-top,0px)] shadow-[0_6px_24px_rgb(0_0_0_/0.18)] md:relative md:inset-auto md:mb-6 md:border-b-0 md:bg-transparent md:pt-0 md:shadow-none">
-          <SectionTabNav
-            items={[...REPORT_TABS]}
-            activeKey={active}
-            onActiveChange={(key) => setActive(key as TabId)}
-            ariaLabel="Secciones de reportes"
-            pinned
-            showHint
-            hintActions={
-              <ReportesNavToolbar
-                activeTab={active}
-                canGoBack={canGoBack}
-                canGoForward={canGoForward}
-                isRefreshing={isRefreshing}
-                onBack={() => {
-                  if (canGoBack) setActive(TAB_ORDER[activeIndex - 1]);
-                }}
-                onForward={() => {
-                  if (canGoForward) setActive(TAB_ORDER[activeIndex + 1]);
-                }}
-                onRestore={handleRestore}
-                onPrint={handlePrint}
-              />
-            }
-          />
+        <div className={SECTION_FIXED_HEADER_CLASS}>
+          <div className="app-container !px-0 md:!px-4 lg:!px-6">
+            <SectionTabNav
+              items={[...REPORT_TABS]}
+              activeKey={active}
+              onActiveChange={(key) => setActive(key as TabId)}
+              ariaLabel="Secciones de reportes"
+              pinned
+              showHint
+              showBrand
+              sectionTitle="Reportes"
+              hintActions={
+                <ReportesNavToolbar
+                  activeTab={active}
+                  canGoBack={canGoBack}
+                  canGoForward={canGoForward}
+                  isRefreshing={isRefreshing}
+                  onBack={() => {
+                    if (canGoBack) setActive(TAB_ORDER[activeIndex - 1]);
+                  }}
+                  onForward={() => {
+                    if (canGoForward) setActive(TAB_ORDER[activeIndex + 1]);
+                  }}
+                  onRestore={handleRestore}
+                  onPrint={handlePrint}
+                />
+              }
+            />
+          </div>
         </div>
 
-        <div className="pt-[5.85rem] md:pt-0">
-          <div
-            className={`card-premium mt-4 min-w-0 max-w-full overflow-x-hidden rounded-2xl p-4 sm:p-6 lg:p-8 ${
-              isRefreshing ? 'opacity-70' : ''
-            }`}
-          >
+        <div
+          className={`card-premium mt-3 min-w-0 max-w-full overflow-x-hidden rounded-2xl p-4 sm:mt-4 sm:p-6 lg:p-8 ${
+            isRefreshing ? 'opacity-70' : ''
+          }`}
+        >
             {active === 'finanzas' ? (
               <TableroFinanciero
                 key={`finanzas-${refreshKey}`}
@@ -142,7 +148,6 @@ export function ReportesOrganizer({
               />
             ) : null}
           </div>
-        </div>
       </div>
 
       <ReportesPrintDocument
