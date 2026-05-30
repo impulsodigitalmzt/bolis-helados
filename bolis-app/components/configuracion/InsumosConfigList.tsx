@@ -5,8 +5,6 @@ import { useCallback, useEffect, useMemo, useState, useTransition } from 'react'
 import { SuccessToast } from '@/components/ui/SuccessToast';
 import {
   compactInputClass,
-  fieldInputClass,
-  fieldLabelClass,
   primaryButtonClass,
   secondaryButtonClass,
 } from '@/components/ui/fieldStyles';
@@ -33,6 +31,10 @@ type DraftRow = {
 };
 
 type Draft = Record<string, DraftRow>;
+
+const thClass =
+  'sticky top-0 z-[1] border border-stone-200 bg-stone-100 px-2 py-2 text-left text-[10px] font-bold uppercase tracking-wide text-stone-600';
+const tdClass = 'border border-stone-200 px-2 py-1.5 align-middle';
 
 function toDraft(insumos: Insumo[]): Draft {
   return Object.fromEntries(
@@ -65,6 +67,220 @@ function rowIsDirty(insumo: Insumo, d: DraftRow | undefined): boolean {
     return precioOferta !== savedOferta;
   }
   return savedOferta != null;
+}
+
+interface InsumoRowFieldsProps {
+  insumo: Insumo;
+  d: DraftRow;
+  dirty: boolean;
+  onUpdate: (patch: Partial<DraftRow>) => void;
+  layout: 'card' | 'table';
+}
+
+function InsumoRowFields({
+  insumo,
+  d,
+  dirty,
+  onUpdate,
+  layout,
+}: InsumoRowFieldsProps) {
+  const precioNuevoEl = (
+    <div className="relative min-w-[5.5rem]">
+      <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-xs text-stone-400">
+        $
+      </span>
+      <input
+        type="number"
+        min={0}
+        step="0.01"
+        value={d.precio}
+        onChange={(e) => onUpdate({ precio: e.target.value })}
+        className={`${compactInputClass} pl-6`}
+        aria-label={`Precio nuevo de ${insumo.nombre}`}
+      />
+    </div>
+  );
+
+  const ofertaEl = (
+    <label className="flex cursor-pointer items-center justify-center gap-1.5">
+      <input
+        type="checkbox"
+        checked={d.en_oferta}
+        onChange={(e) =>
+          onUpdate({
+            en_oferta: e.target.checked,
+            precio_oferta: e.target.checked
+              ? d.precio_oferta || String(insumo.precio)
+              : '',
+          })
+        }
+        className="h-4 w-4 rounded border-stone-300 text-brand focus:ring-brand/30"
+        aria-label={`Oferta en ${insumo.nombre}`}
+      />
+      {layout === 'card' ? (
+        <span className="text-xs text-stone-600">Oferta</span>
+      ) : null}
+    </label>
+  );
+
+  const precioOfertaEl = (
+    <div className="relative min-w-[5.5rem]">
+      <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-xs text-stone-400">
+        $
+      </span>
+      <input
+        type="number"
+        min={0}
+        step="0.01"
+        disabled={!d.en_oferta}
+        value={d.precio_oferta}
+        onChange={(e) => onUpdate({ precio_oferta: e.target.value })}
+        placeholder="—"
+        className={`${compactInputClass} pl-6 disabled:opacity-40`}
+        aria-label={`Precio oferta de ${insumo.nombre}`}
+      />
+    </div>
+  );
+
+  const tamanoEl = (
+    <input
+      type="number"
+      min={0.0001}
+      step="0.0001"
+      value={d.tamano_paquete}
+      onChange={(e) => onUpdate({ tamano_paquete: e.target.value })}
+      className={`${compactInputClass} max-w-[5.5rem] tabular-nums`}
+      aria-label={`Tamaño de paquete de ${insumo.nombre}`}
+    />
+  );
+
+  const stockEl = (
+    <input
+      type="number"
+      min={0}
+      step="0.0001"
+      value={d.cantidad_actual}
+      onChange={(e) => onUpdate({ cantidad_actual: e.target.value })}
+      className={`${compactInputClass} max-w-[5.5rem] tabular-nums`}
+      aria-label={`Stock de ${insumo.nombre}`}
+    />
+  );
+
+  if (layout === 'table') {
+    return (
+      <>
+        <td className={`${tdClass} min-w-[10rem] font-semibold text-stone-900`}>
+          {insumo.nombre}
+          {dirty ? (
+            <span className="ml-1.5 inline-block rounded bg-orange-200 px-1.5 py-0.5 text-[9px] font-bold uppercase text-orange-900">
+              editado
+            </span>
+          ) : null}
+        </td>
+        <td className={`${tdClass} w-16 text-center text-xs text-stone-600`}>
+          {insumo.unidad}
+        </td>
+        <td className={`${tdClass} w-28`}>{tamanoEl}</td>
+        <td className={`${tdClass} w-28`}>{stockEl}</td>
+        <td className={`${tdClass} w-28 text-right tabular-nums`}>
+          <span
+            className={
+              insumo.en_oferta
+                ? 'text-stone-400 line-through'
+                : 'font-semibold text-stone-800'
+            }
+          >
+            {formatCurrency(insumo.precio)}
+          </span>
+          {insumo.en_oferta && insumo.precio_oferta != null ? (
+            <p className="text-xs font-bold text-brand-dark">
+              {formatCurrency(insumo.precio_oferta)}
+            </p>
+          ) : null}
+          <p className="text-[10px] text-stone-400">
+            ef. {formatCurrency(precioEfectivoInsumo(insumo))}
+          </p>
+        </td>
+        <td className={tdClass}>{precioNuevoEl}</td>
+        <td className={`${tdClass} w-16 text-center`}>{ofertaEl}</td>
+        <td className={tdClass}>{precioOfertaEl}</td>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <div className="min-w-0 md:col-span-1">
+        <p
+          className="text-sm font-semibold leading-snug text-stone-900 break-words"
+          title={insumo.nombre}
+        >
+          {insumo.nombre}
+        </p>
+        <p className="text-[10px] text-stone-400">
+          Paquete: {insumo.tamano_paquete ?? 1} {insumo.unidad} · /{insumo.unidad}
+          {d.en_oferta ? (
+            <span className="ml-1 font-semibold text-brand-dark">· en oferta</span>
+          ) : null}
+        </p>
+        <div className="mt-1 flex flex-wrap items-center gap-1.5">
+          <span className="text-[10px] font-semibold uppercase text-stone-400">
+            Paquete
+          </span>
+          {tamanoEl}
+          <span className="text-[10px] text-stone-400">{insumo.unidad}</span>
+        </div>
+        <div className="mt-1 flex items-center gap-1.5">
+          <span className="text-[10px] font-semibold uppercase text-stone-400">
+            Stock
+          </span>
+          {stockEl}
+          <span className="text-[10px] text-stone-400">{insumo.unidad}</span>
+        </div>
+      </div>
+
+      <div className="mt-1.5 flex items-center justify-between gap-2 md:mt-1 md:block md:text-right">
+        <span className="text-[10px] font-semibold uppercase text-stone-400 md:hidden">
+          Actual
+        </span>
+        <div className="text-right">
+          <span
+            className={`text-sm font-bold tabular-nums ${
+              insumo.en_oferta ? 'text-stone-400 line-through' : 'text-stone-800'
+            }`}
+          >
+            {formatCurrency(insumo.precio)}
+          </span>
+          {insumo.en_oferta && insumo.precio_oferta != null ? (
+            <p className="text-xs font-bold tabular-nums text-brand-dark">
+              {formatCurrency(insumo.precio_oferta)}
+            </p>
+          ) : null}
+        </div>
+      </div>
+
+      <div className="mt-1 flex items-center gap-2 md:mt-1">
+        <span className="w-14 shrink-0 text-[10px] font-semibold uppercase text-stone-400 md:hidden">
+          Nuevo
+        </span>
+        <div className="flex-1 md:flex-none">{precioNuevoEl}</div>
+      </div>
+
+      <div className="mt-1 flex items-center gap-2 md:mt-1 md:justify-center">
+        <span className="text-[10px] font-semibold uppercase text-stone-400 md:sr-only">
+          Oferta
+        </span>
+        {ofertaEl}
+      </div>
+
+      <div className="mt-1 flex items-center gap-2 md:mt-1">
+        <span className="w-14 shrink-0 text-[10px] font-semibold uppercase text-stone-400 md:hidden">
+          $ Oferta
+        </span>
+        <div className="flex-1 md:flex-none">{precioOfertaEl}</div>
+      </div>
+    </>
+  );
 }
 
 export function InsumosConfigList({ initialInsumos }: InsumosConfigListProps) {
@@ -244,19 +460,23 @@ export function InsumosConfigList({ initialInsumos }: InsumosConfigListProps) {
         </span>
       </div>
 
-      <div className="mb-3 flex gap-2">
+      <div className="mb-3 flex flex-wrap items-center gap-2">
         <button
           type="button"
           onClick={() => setShowNew((v) => !v)}
-          className={`${secondaryButtonClass} flex-1 text-xs`}
+          className={`${secondaryButtonClass} text-xs md:w-auto`}
         >
-          {showNew ? 'Cancelar' : '+ Nuevo'}
+          {showNew ? 'Cancelar' : '+ Nuevo insumo'}
         </button>
         {dirtyCount > 0 ? (
           <span className="badge-brand">
             {dirtyCount} cambio{dirtyCount === 1 ? '' : 's'}
           </span>
         ) : null}
+        <p className="hidden text-xs text-stone-500 md:block">
+          Usa Tab para saltar entre celdas · Enter para editar · Guarda al
+          terminar
+        </p>
       </div>
 
       {showNew ? (
@@ -305,199 +525,95 @@ export function InsumosConfigList({ initialInsumos }: InsumosConfigListProps) {
       ) : null}
 
       <div className="card-premium overflow-hidden">
-        {/* Encabezado escritorio */}
-        <div className="hidden border-b border-stone-100 bg-stone-50/80 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-stone-400 md:grid md:grid-cols-[minmax(0,1.6fr)_5rem_5rem_2.5rem_5rem] md:gap-2">
-          <span>
-            Insumo ({initialInsumos.length})
-          </span>
-          <span className="text-right">Actual</span>
-          <span className="text-right">Nuevo $</span>
-          <span className="text-center">Oferta</span>
-          <span className="text-right">$ Oferta</span>
-        </div>
-
-        <ul className="divide-y divide-stone-100">
+        {/* Móvil: tarjetas */}
+        <ul className="divide-y divide-stone-100 md:hidden">
           {initialInsumos.map((insumo) => {
             const d = draft[insumo.id];
+            if (!d) return null;
             const dirty = rowIsDirty(insumo, d);
 
             return (
               <li
                 key={insumo.id}
-                className={`px-3 py-2.5 transition-colors md:grid md:grid-cols-[minmax(0,1.6fr)_5rem_5rem_2.5rem_5rem] md:items-start md:gap-2 md:py-2 ${
+                className={`grid grid-cols-1 gap-0 px-3 py-2.5 ${
                   dirty ? 'bg-orange-50' : 'hover:bg-stone-50/50'
                 }`}
               >
-                {/* Móvil + columna nombre */}
-                <div className="min-w-0 md:col-span-1">
-                  <p
-                    className="text-sm font-semibold leading-snug text-stone-900 break-words"
-                    title={insumo.nombre}
-                  >
-                    {insumo.nombre}
-                  </p>
-                  <p className="text-[10px] text-stone-400">
-                    Paquete: {insumo.tamano_paquete ?? 1} {insumo.unidad} · /{insumo.unidad}
-                    {d?.en_oferta ? (
-                      <span className="ml-1 font-semibold text-brand-dark">
-                        · en oferta
-                      </span>
-                    ) : null}
-                  </p>
-                  <div className="mt-1 flex flex-wrap items-center gap-1.5">
-                    <span className="text-[10px] font-semibold uppercase text-stone-400">
-                      Paquete
-                    </span>
-                    <input
-                      type="number"
-                      min={0.0001}
-                      step="0.0001"
-                      value={d?.tamano_paquete ?? ''}
-                      onChange={(e) =>
-                        updateRow(insumo.id, { tamano_paquete: e.target.value })
-                      }
-                      className={`${compactInputClass} max-w-[4.5rem] tabular-nums`}
-                      title="Tamaño del paquete (cantidad del Excel)"
-                    />
-                    <span className="text-[10px] text-stone-400">{insumo.unidad}</span>
-                  </div>
-                  <div className="mt-1 flex items-center gap-1.5">
-                    <span className="text-[10px] font-semibold uppercase text-stone-400">
-                      Stock
-                    </span>
-                    <input
-                      type="number"
-                      min={0}
-                      step="0.0001"
-                      value={d?.cantidad_actual ?? ''}
-                      onChange={(e) =>
-                        updateRow(insumo.id, {
-                          cantidad_actual: e.target.value,
-                        })
-                      }
-                      className={`${compactInputClass} max-w-[5.5rem] tabular-nums`}
-                    />
-                    <span className="text-[10px] text-stone-400">
-                      {insumo.unidad}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Precio actual — visible en ambos */}
-                <div className="mt-1.5 flex items-center justify-between gap-2 md:mt-1 md:block md:text-right">
-                  <span className="text-[10px] font-semibold uppercase text-stone-400 md:hidden">
-                    Actual
-                  </span>
-                  <div className="text-right">
-                    <span
-                      className={`text-sm font-bold tabular-nums ${
-                        insumo.en_oferta ? 'text-stone-400 line-through' : 'text-stone-800'
-                      }`}
-                    >
-                      {formatCurrency(insumo.precio)}
-                    </span>
-                    {insumo.en_oferta && insumo.precio_oferta != null ? (
-                      <p className="text-xs font-bold tabular-nums text-brand-dark">
-                        {formatCurrency(insumo.precio_oferta)}
-                      </p>
-                    ) : null}
-                    <p className="hidden text-[10px] text-stone-400 md:block">
-                      ef. {formatCurrency(precioEfectivoInsumo(insumo))}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Nuevo precio */}
-                <div className="mt-1 flex items-center gap-2 md:mt-1">
-                  <span className="w-14 shrink-0 text-[10px] font-semibold uppercase text-stone-400 md:hidden">
-                    Nuevo
-                  </span>
-                  <div className="relative flex-1 md:flex-none">
-                    <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-xs text-stone-400">
-                      $
-                    </span>
-                    <input
-                      type="number"
-                      min={0}
-                      step="0.01"
-                      value={d?.precio ?? ''}
-                      onChange={(e) =>
-                        updateRow(insumo.id, { precio: e.target.value })
-                      }
-                      className={`${compactInputClass} pl-6`}
-                    />
-                  </div>
-                </div>
-
-                {/* Oferta checkbox */}
-                <div className="mt-1 flex items-center gap-2 md:mt-1 md:justify-center">
-                  <span className="text-[10px] font-semibold uppercase text-stone-400 md:sr-only">
-                    Oferta
-                  </span>
-                  <label className="flex cursor-pointer items-center gap-1.5">
-                    <input
-                      type="checkbox"
-                      checked={d?.en_oferta ?? false}
-                      onChange={(e) =>
-                        updateRow(insumo.id, {
-                          en_oferta: e.target.checked,
-                          precio_oferta: e.target.checked
-                            ? d?.precio_oferta ?? String(insumo.precio)
-                            : '',
-                        })
-                      }
-                      className="h-4 w-4 rounded border-stone-300 text-brand focus:ring-brand/30"
-                    />
-                    <span className="text-xs text-stone-600 md:hidden">Oferta</span>
-                  </label>
-                </div>
-
-                {/* Precio oferta */}
-                <div className="mt-1 flex items-center gap-2 md:mt-1">
-                  <span className="w-14 shrink-0 text-[10px] font-semibold uppercase text-stone-400 md:hidden">
-                    $ Oferta
-                  </span>
-                  <div className="relative flex-1 md:flex-none">
-                    <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-xs text-stone-400">
-                      $
-                    </span>
-                    <input
-                      type="number"
-                      min={0}
-                      step="0.01"
-                      disabled={!d?.en_oferta}
-                      value={d?.precio_oferta ?? ''}
-                      onChange={(e) =>
-                        updateRow(insumo.id, { precio_oferta: e.target.value })
-                      }
-                      placeholder="—"
-                      className={`${compactInputClass} pl-6 disabled:opacity-40`}
-                    />
-                  </div>
-                </div>
+                <InsumoRowFields
+                  insumo={insumo}
+                  d={d}
+                  dirty={dirty}
+                  layout="card"
+                  onUpdate={(patch) => updateRow(insumo.id, patch)}
+                />
               </li>
             );
           })}
         </ul>
+
+        {/* Tablet / PC: tabla tipo Excel */}
+        <div className="hidden md:block">
+          <div className="-mx-px max-h-[min(70vh,42rem)] overflow-auto overscroll-contain">
+            <table className="w-full min-w-[52rem] border-collapse text-sm">
+              <thead>
+                <tr>
+                  <th className={`${thClass} min-w-[10rem]`}>Insumo</th>
+                  <th className={`${thClass} w-16 text-center`}>Unidad</th>
+                  <th className={`${thClass} w-28`}>Tamaño paq.</th>
+                  <th className={`${thClass} w-28`}>Stock</th>
+                  <th className={`${thClass} w-28 text-right`}>Precio actual</th>
+                  <th className={`${thClass} w-32`}>Precio nuevo</th>
+                  <th className={`${thClass} w-16 text-center`}>Oferta</th>
+                  <th className={`${thClass} w-32`}>$ Oferta</th>
+                </tr>
+              </thead>
+              <tbody>
+                {initialInsumos.map((insumo) => {
+                  const d = draft[insumo.id];
+                  if (!d) return null;
+                  const dirty = rowIsDirty(insumo, d);
+
+                  return (
+                    <tr
+                      key={insumo.id}
+                      className={
+                        dirty
+                          ? 'bg-orange-50'
+                          : 'bg-white even:bg-stone-50/60 hover:bg-stone-50'
+                      }
+                    >
+                      <InsumoRowFields
+                        insumo={insumo}
+                        d={d}
+                        dirty={dirty}
+                        layout="table"
+                        onUpdate={(patch) => updateRow(insumo.id, patch)}
+                      />
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
-      {/* Espacio para botón flotante */}
-      <div className="h-20" aria-hidden />
+      <div className="h-20 md:h-24" aria-hidden />
 
-      <div className="fixed bottom-[4.75rem] left-0 right-0 z-40 safe-area-pb">
-        <div className="app-container">
-        <button
-          type="button"
-          disabled={isPending || dirtyCount === 0}
-          onClick={handleSaveAll}
-          className={primaryButtonClass}
-        >
-          {isPending
-            ? 'Guardando…'
-            : dirtyCount > 0
-              ? `Guardar cambios (${dirtyCount})`
-              : 'Sin cambios pendientes'}
-        </button>
+      <div className="fixed bottom-[4.75rem] left-0 right-0 z-40 safe-area-pb md:static md:mt-4 md:pb-0">
+        <div className="app-container md:!max-w-none md:!px-0">
+          <button
+            type="button"
+            disabled={isPending || dirtyCount === 0}
+            onClick={handleSaveAll}
+            className={`${primaryButtonClass} md:max-w-md`}
+          >
+            {isPending
+              ? 'Guardando…'
+              : dirtyCount > 0
+                ? `Guardar cambios (${dirtyCount})`
+                : 'Sin cambios pendientes'}
+          </button>
         </div>
       </div>
     </>
