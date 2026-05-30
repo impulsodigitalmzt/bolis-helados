@@ -225,7 +225,7 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
       ) : null}
 
       <p
-        className="mb-2 flex w-full max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1.5 text-center text-xs leading-snug text-gray-500 sm:justify-start sm:gap-x-3 sm:text-left sm:text-sm"
+        className="mb-1.5 flex w-full max-w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-center text-[10px] leading-snug text-gray-500 sm:mb-2 sm:justify-start sm:gap-x-3 sm:text-left sm:text-sm"
         aria-label="Leyenda de inventario: Alto desde 4, Medio de 1 a 3, Agotado en 0"
       >
         <span className="shrink-0 whitespace-nowrap font-medium">Inventario:</span>
@@ -243,11 +243,11 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
         </span>
       </p>
 
-      <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-stone-500">
+      <p className="mb-2 text-[10px] font-semibold uppercase tracking-wide text-stone-500 sm:mb-3 sm:text-xs">
         Toca un sabor para vender
       </p>
 
-      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+      <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5">
         {sabores.map((sabor) => {
           const sinStock = sabor.stock_disponible < cantidadNum;
           const recienVendido = ultimoSaborId === sabor.sabor_id && !isPending;
@@ -263,7 +263,7 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
                 setError(null);
                 setSaborSeleccionadoId(sabor.sabor_id);
               }}
-              className={`relative flex min-h-[5.5rem] flex-col items-center justify-center rounded-2xl border-2 px-2 py-3 text-center transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-45 ${
+              className={`relative flex min-h-[4.25rem] flex-col items-center justify-center rounded-xl border-2 px-1 py-2 text-center transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-45 sm:min-h-[5.5rem] sm:rounded-2xl sm:px-2 sm:py-3 ${
                 recienVendido
                   ? 'border-profit bg-green-50 shadow-md'
                   : seleccionado
@@ -274,7 +274,7 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
               }`}
             >
               <span
-                className={`absolute right-2 top-2 h-2 w-2 shrink-0 rounded-full ${
+                className={`absolute right-1 top-1 h-1.5 w-1.5 shrink-0 rounded-full sm:right-2 sm:top-2 sm:h-2 sm:w-2 ${
                   semaforo === 'verde'
                     ? 'bg-green-500'
                     : semaforo === 'naranja'
@@ -283,14 +283,14 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
                 }`}
                 aria-hidden
               />
-              <span className="line-clamp-2 text-sm font-bold leading-tight text-stone-900">
+              <span className="line-clamp-2 text-[10px] font-bold leading-tight text-stone-900 sm:text-sm">
                 {sabor.sabor_nombre}
               </span>
-              <span className="mt-1 text-xs font-semibold tabular-nums text-brand-dark">
+              <span className="mt-0.5 text-[10px] font-semibold tabular-nums text-brand-dark sm:mt-1 sm:text-xs">
                 {formatCurrency(sabor.precio_venta)}
               </span>
               <span
-                className={`mt-1.5 rounded-full px-2 py-0.5 text-[10px] font-bold tabular-nums ${
+                className={`mt-1 rounded-full px-1.5 py-px text-[8px] font-bold tabular-nums sm:mt-1.5 sm:px-2 sm:py-0.5 sm:text-[10px] ${
                   sinStock
                     ? 'bg-stone-200 text-stone-600'
                     : 'bg-brand text-white'
