@@ -17,19 +17,19 @@ export default async function VentaPage() {
   }
 
   return (
-    <>
+    <div className="flex min-h-0 flex-1 flex-col">
       {errorMessage ? (
-        <div className="alert-warning mb-5">{errorMessage}</div>
+        <div className="alert-warning mb-5 shrink-0">{errorMessage}</div>
       ) : null}
 
       {sabores.length === 0 ? (
-        <p className="card-premium mb-4 p-4 text-sm text-stone-600">
+        <p className="card-premium mb-4 shrink-0 p-4 text-sm text-stone-600">
           Registra producción en Config → Producción para tener bolis en
           inventario antes de vender.
         </p>
       ) : null}
 
       <PosVenta sabores={sabores} vendedoras={vendedoras} />
-    </>
+    </div>
   );
 }

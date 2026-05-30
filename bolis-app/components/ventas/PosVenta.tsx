@@ -119,9 +119,10 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
         />
       ) : null}
 
-      <div className="card-premium mb-4 min-w-0 space-y-3 overflow-hidden p-3 sm:p-4">
+      <div className="flex min-h-0 flex-1 flex-col">
+      <div className="card-premium mb-3 min-w-0 shrink-0 space-y-2.5 overflow-hidden p-2.5 sm:mb-4 sm:space-y-3 sm:p-4">
         <div
-          className="relative flex min-h-[2.75rem] items-center justify-center px-12"
+          className="relative flex min-h-[2.5rem] items-center justify-center px-11 sm:min-h-[2.75rem] sm:px-12"
           ref={vendedoraMenuRef}
         >
           <div className="min-w-0 max-w-full text-center">
@@ -213,20 +214,20 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
           type="button"
           disabled={isPending || !saborSeleccionadoId}
           onClick={handleRegistrarVenta}
-          className="mt-2 w-full rounded-2xl border-2 border-transparent bg-orange-500 px-4 py-3.5 text-base font-bold text-white shadow-sm transition hover:bg-orange-600 active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-gray-400"
+          className="w-full rounded-2xl border-2 border-transparent bg-orange-500 px-4 py-3 text-base font-bold text-white shadow-sm transition hover:bg-orange-600 active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-gray-400 sm:py-3.5"
         >
           {isPending ? 'Registrando…' : 'REGISTRAR VENTA'}
         </button>
       </div>
 
       {error ? (
-        <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+        <div className="mb-2 shrink-0 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-800 sm:mb-4 sm:py-3">
           {error}
         </div>
       ) : null}
 
       <p
-        className="mb-1.5 flex w-full max-w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-center text-[10px] leading-snug text-gray-500 sm:mb-2 sm:justify-start sm:gap-x-3 sm:text-left sm:text-sm"
+        className="mb-1 flex w-full max-w-full shrink-0 flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5 text-center text-[9px] leading-snug text-gray-500 sm:mb-2 sm:justify-start sm:gap-x-3 sm:text-left sm:text-sm"
         aria-label="Leyenda de inventario: Alto desde 4, Medio de 1 a 3, Agotado en 0"
       >
         <span className="shrink-0 whitespace-nowrap font-medium">Inventario:</span>
@@ -244,11 +245,11 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
         </span>
       </p>
 
-      <p className="mb-2 text-[10px] font-semibold uppercase tracking-wide text-stone-500 sm:mb-3 sm:text-xs">
+      <p className="mb-1.5 shrink-0 text-[10px] font-semibold uppercase tracking-wide text-stone-500 sm:mb-3 sm:text-xs">
         Toca un sabor para vender
       </p>
 
-      <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5">
+      <div className="grid min-h-0 flex-1 grid-cols-3 auto-rows-fr gap-2 sm:flex-none sm:auto-rows-auto sm:gap-2.5">
         {sabores.map((sabor) => {
           const sinStock = sabor.stock_disponible < cantidadNum;
           const recienVendido = ultimoSaborId === sabor.sabor_id && !isPending;
@@ -264,7 +265,7 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
                 setError(null);
                 setSaborSeleccionadoId(sabor.sabor_id);
               }}
-              className={`relative flex min-h-[4.25rem] flex-col items-center justify-center rounded-xl border-2 px-1 py-2 text-center transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-45 sm:min-h-[5.5rem] sm:rounded-2xl sm:px-2 sm:py-3 ${
+              className={`relative flex h-full min-h-[4.75rem] flex-col items-center justify-center rounded-xl border-2 px-1.5 py-2 text-center transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-45 sm:min-h-[5.5rem] sm:rounded-2xl sm:px-2 sm:py-3 ${
                 recienVendido
                   ? 'border-profit bg-green-50 shadow-md'
                   : seleccionado
@@ -284,14 +285,14 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
                 }`}
                 aria-hidden
               />
-              <span className="line-clamp-2 text-[10px] font-bold leading-tight text-stone-900 sm:text-sm">
+              <span className="line-clamp-2 px-0.5 text-[11px] font-bold leading-tight text-stone-900 sm:text-sm">
                 {sabor.sabor_nombre}
               </span>
-              <span className="mt-0.5 text-[10px] font-semibold tabular-nums text-brand-dark sm:mt-1 sm:text-xs">
+              <span className="mt-0.5 text-[11px] font-semibold tabular-nums text-brand-dark sm:mt-1 sm:text-xs">
                 {formatCurrency(sabor.precio_venta)}
               </span>
               <span
-                className={`mt-1 rounded-full px-1.5 py-px text-[8px] font-bold tabular-nums sm:mt-1.5 sm:px-2 sm:py-0.5 sm:text-[10px] ${
+                className={`mt-1 rounded-full px-2 py-0.5 text-[9px] font-bold tabular-nums sm:mt-1.5 sm:px-2 sm:text-[10px] ${
                   sinStock
                     ? 'bg-stone-200 text-stone-600'
                     : 'bg-brand text-white'
@@ -311,10 +312,11 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
       ) : null}
 
       {isPending ? (
-        <p className="mt-4 text-center text-xs font-semibold text-brand-dark">
+        <p className="mt-2 shrink-0 text-center text-xs font-semibold text-brand-dark sm:mt-4">
           Registrando venta…
         </p>
       ) : null}
+      </div>
     </>
   );
 }
