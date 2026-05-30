@@ -39,6 +39,8 @@ interface SectionTabNavProps {
   sectionTitle?: string;
   /** Fila logo + marca sobre las pestañas (tablet/PC). */
   showBrand?: boolean;
+  /** Muestra el texto descriptivo (hint) en la sub-barra. */
+  showHintText?: boolean;
 }
 
 function isActiveLink(pathname: string, href: string): boolean {
@@ -141,6 +143,7 @@ export function SectionTabNav({
   hintActions,
   sectionTitle,
   showBrand = false,
+  showHintText = true,
 }: SectionTabNavProps) {
   const resolvedActive =
     activeKey ??
@@ -232,29 +235,35 @@ export function SectionTabNav({
         )}
         {trailing}
       </div>
-      {showHint && current?.hint ? (
-        <div className="flex items-center gap-2 border-t-2 border-stone-300 bg-stone-200 px-2 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-3 lg:px-6">
-          <div className="min-w-0 flex-1">
-            {sectionTitle ? (
-              <>
-                <p className="text-center text-xs font-medium leading-snug text-stone-800 break-words md:hidden">
-                  {current.hint}
-                </p>
-                <div className="hidden min-w-0 md:block">
-                  <h1 className="text-lg font-extrabold leading-tight text-stone-900 lg:text-xl">
-                    {sectionTitle}
-                  </h1>
-                  <p className="mt-0.5 text-sm font-medium text-stone-700">
+      {hintActions || (showHint && showHintText && current?.hint) ? (
+        <div
+          className={`flex items-center gap-2 border-t-2 border-stone-300 bg-stone-200 px-2 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-2.5 lg:px-6 ${
+            !showHintText || !current?.hint ? 'justify-end' : ''
+          }`}
+        >
+          {showHint && showHintText && current?.hint ? (
+            <div className="min-w-0 flex-1">
+              {sectionTitle ? (
+                <>
+                  <p className="text-center text-xs font-medium leading-snug text-stone-800 break-words md:hidden">
                     {current.hint}
                   </p>
-                </div>
-              </>
-            ) : (
-              <p className="min-w-0 text-center text-xs font-medium leading-snug text-stone-800 break-words md:text-left md:text-sm">
-                {current.hint}
-              </p>
-            )}
-          </div>
+                  <div className="hidden min-w-0 md:block">
+                    <h1 className="text-lg font-extrabold leading-tight text-stone-900 lg:text-xl">
+                      {sectionTitle}
+                    </h1>
+                    <p className="mt-0.5 text-sm font-medium text-stone-700">
+                      {current.hint}
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <p className="min-w-0 text-center text-xs font-medium leading-snug text-stone-800 break-words md:text-left md:text-sm">
+                  {current.hint}
+                </p>
+              )}
+            </div>
+          ) : null}
           {hintActions ? (
             <div className="flex shrink-0 items-center gap-1">{hintActions}</div>
           ) : null}

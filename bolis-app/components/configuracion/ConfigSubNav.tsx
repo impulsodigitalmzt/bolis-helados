@@ -81,11 +81,10 @@ export function ConfigSubNav() {
         pathname={pathname}
         ariaLabel="Sección de configuración"
         equalColumns
-        pinned
-        showHint
-        showBrand
-        sectionTitle="Configuración"
-        hintActions={
+          pinned
+          showHint
+          showHintText={false}
+          hintActions={
           <ConfigNavToolbar
             canGoBack={canGoBack}
             canGoForward={canGoForward}

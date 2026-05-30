@@ -97,8 +97,7 @@ export function ReportesOrganizer({
             ariaLabel="Secciones de reportes"
             pinned
             showHint
-            showBrand
-            sectionTitle="Reportes"
+            showHintText={false}
             hintActions={
               <ReportesNavToolbar
                 activeTab={active}
