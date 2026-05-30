@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState, useTransition } from 'react';
+import { revalidarVistasDeCostos } from '@/app/actions/costos';
 import { SuccessToast } from '@/components/ui/SuccessToast';
 import {
   fieldInputClass,
@@ -46,13 +47,32 @@ export function SaboresProductosList({ initialSabores }: SaboresProductosListPro
 
   const router = useRouter();
   const [draft, setDraft] = useState<Draft>(() => toDraft(productos));
+  const [preciosBase, setPreciosBase] = useState<Record<string, number>>(() =>
+    Object.fromEntries(productos.map((s) => [s.id, s.precio_venta])),
+  );
   const [savingId, setSavingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [, startTransition] = useTransition();
 
   useEffect(() => {
-    setDraft(toDraft(productos));
+    setPreciosBase((prev) => {
+      const merged: Record<string, number> = {};
+      for (const s of productos) {
+        const local = prev[s.id];
+        merged[s.id] =
+          local !== undefined && local !== s.precio_venta ? local : s.precio_venta;
+      }
+      setDraft(
+        Object.fromEntries(
+          productos.map((s) => [
+            s.id,
+            { precio_venta: String(merged[s.id]) },
+          ]),
+        ),
+      );
+      return merged;
+    });
   }, [productos]);
 
   const updateField = useCallback((id: string, value: string) => {
@@ -64,7 +84,8 @@ export function SaboresProductosList({ initialSabores }: SaboresProductosListPro
 
   function isDirty(sabor: Sabor): boolean {
     const d = draft[sabor.id];
-    return d ? parseFloat(d.precio_venta) !== sabor.precio_venta : false;
+    const base = preciosBase[sabor.id] ?? sabor.precio_venta;
+    return d ? parseFloat(d.precio_venta) !== base : false;
   }
 
   async function handleSave(sabor: Sabor) {
@@ -79,7 +100,16 @@ export function SaboresProductosList({ initialSabores }: SaboresProductosListPro
 
     startTransition(async () => {
       try {
-        await updateSaborPrecioVenta(sabor.id, precio);
+        const updated = await updateSaborPrecioVenta(sabor.id, precio);
+        setPreciosBase((prev) => ({
+          ...prev,
+          [sabor.id]: updated.precio_venta,
+        }));
+        setDraft((prev) => ({
+          ...prev,
+          [sabor.id]: { precio_venta: String(updated.precio_venta) },
+        }));
+        await revalidarVistasDeCostos();
         setSuccessMessage(`Precio de «${sabor.nombre}» actualizado`);
         router.refresh();
       } catch (err) {
