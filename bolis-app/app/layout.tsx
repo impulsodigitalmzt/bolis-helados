@@ -48,9 +48,8 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    icon: [{ url: APP_LOGO_SRC, type: 'image/png' }],
-    apple: [{ url: APP_LOGO_SRC, type: 'image/png' }],
-    shortcut: [APP_LOGO_SRC],
+    icon: [{ url: '/icon', type: 'image/png', sizes: '32x32' }],
+    apple: [{ url: '/apple-icon', type: 'image/png', sizes: '512x512' }],
   },
   openGraph: {
     title: APP_NAME,

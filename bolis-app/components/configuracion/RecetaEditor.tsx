@@ -559,7 +559,7 @@ export function RecetaEditor({
   });
 
   return (
-    <div className="min-w-0 pb-28">
+    <div className="min-w-0 pb-4">
       {successMessage ? (
         <SuccessToast
           message={successMessage}

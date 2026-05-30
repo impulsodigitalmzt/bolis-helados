@@ -126,19 +126,25 @@ input[type='date'] {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* Altura de chrome fijo: dock tabs + barra de acciones */
+/* Altura de chrome fijo: pestañas + barra de acciones */
 :root {
   --section-chrome-height: calc(6.5rem + env(safe-area-inset-top, 0px));
+  --section-chrome-height-compact: calc(4.75rem + env(safe-area-inset-top, 0px));
 }
 
 @media (min-width: 768px) {
   :root {
     --section-chrome-height: calc(6.5rem + env(safe-area-inset-top, 0px));
+    --section-chrome-height-compact: calc(5rem + env(safe-area-inset-top, 0px));
   }
 }
 
 .section-content-offset {
   padding-top: var(--section-chrome-height);
+}
+
+.section-content-offset-compact {
+  padding-top: var(--section-chrome-height-compact);
 }
 
 /* Ancho adaptable: móvil estrecho → tablet → PC */

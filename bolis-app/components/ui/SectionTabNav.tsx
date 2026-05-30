@@ -12,6 +12,8 @@ export interface SectionTabItem {
   hint: string;
   Icon: SectionTabIcon;
   href?: string;
+  /** Rutas extra que marcan esta pestaña como activa (p. ej. /registrar → Venta). */
+  alsoActiveOn?: readonly string[];
 }
 
 interface SectionTabNavProps {
@@ -35,6 +37,8 @@ interface SectionTabNavProps {
   pinned?: boolean;
   /** Botones compactos en la franja de hint (p. ej. navegación / actualizar). */
   hintActions?: ReactNode;
+  /** Accesos rápidos a otras secciones (izquierda de la franja de hint). */
+  leadingActions?: ReactNode;
   /** Título de sección en sub-barra (tablet/PC), p. ej. «Reportes». */
   sectionTitle?: string;
   /** Fila logo + marca sobre las pestañas (tablet/PC). */
@@ -45,6 +49,22 @@ interface SectionTabNavProps {
 
 function isActiveLink(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function isTabActive(pathname: string, item: SectionTabItem): boolean {
+  if (item.href && isActiveLink(pathname, item.href)) return true;
+  if (
+    item.key === 'config' &&
+    item.href?.startsWith('/configuracion') &&
+    pathname.startsWith('/configuracion')
+  ) {
+    return true;
+  }
+  return (
+    item.alsoActiveOn?.some(
+      (path) => pathname === path || pathname.startsWith(`${path}/`),
+    ) ?? false
+  );
 }
 
 function TabButton({
@@ -141,13 +161,14 @@ export function SectionTabNav({
   equalColumns = false,
   pinned = false,
   hintActions,
+  leadingActions,
   sectionTitle,
   showBrand = false,
   showHintText = true,
 }: SectionTabNavProps) {
   const resolvedActive =
     activeKey ??
-    items.find((item) => item.href && isActiveLink(pathname, item.href))?.key ??
+    items.find((item) => item.href && isTabActive(pathname, item))?.key ??
     items[0]?.key;
 
   const current = items.find((item) => item.key === resolvedActive) ?? items[0];
@@ -173,7 +194,7 @@ export function SectionTabNav({
   const tabButtons = items.map((item) => {
     const isActive =
       item.key === resolvedActive ||
-      (item.href != null && isActiveLink(pathname, item.href));
+      (item.href != null && isTabActive(pathname, item));
 
     return (
       <TabButton
@@ -235,12 +256,17 @@ export function SectionTabNav({
         )}
         {trailing}
       </div>
-      {hintActions || (showHint && showHintText && current?.hint) ? (
+      {leadingActions || hintActions || (showHint && showHintText && current?.hint) ? (
         <div
           className={`flex items-center gap-2 border-t-2 border-stone-300 bg-stone-200 px-2 py-2 sm:px-3 sm:py-2.5 md:px-4 md:py-2.5 lg:px-6 ${
-            !showHintText || !current?.hint ? 'justify-end' : ''
+            leadingActions && hintActions ? 'justify-between' : !showHintText || !current?.hint
+              ? 'justify-end'
+              : ''
           }`}
         >
+          {leadingActions ? (
+            <div className="flex shrink-0 items-center gap-1">{leadingActions}</div>
+          ) : null}
           {showHint && showHintText && current?.hint ? (
             <div className="min-w-0 flex-1">
               {sectionTitle ? (

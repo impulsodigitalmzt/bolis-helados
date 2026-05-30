@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { APP_LOGO_SIZE, APP_LOGO_SRC, APP_NAME } from '@/lib/branding';
+import { APP_NAME } from '@/lib/branding';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
@@ -17,16 +17,22 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ['business', 'finance'],
     icons: [
       {
-        src: APP_LOGO_SRC,
-        sizes: `${APP_LOGO_SIZE.width}x${APP_LOGO_SIZE.height}`,
+        src: '/apple-icon',
+        sizes: '512x512',
         type: 'image/png',
         purpose: 'any',
       },
       {
-        src: APP_LOGO_SRC,
-        sizes: `${APP_LOGO_SIZE.width}x${APP_LOGO_SIZE.height}`,
+        src: '/apple-icon',
+        sizes: '512x512',
         type: 'image/png',
         purpose: 'maskable',
+      },
+      {
+        src: '/icon',
+        sizes: '32x32',
+        type: 'image/png',
+        purpose: 'any',
       },
     ],
   };
