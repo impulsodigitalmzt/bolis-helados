@@ -187,7 +187,7 @@ export function SectionTabNav({
 
   return (
     <nav
-      className={`${pinned ? 'mb-0' : 'mb-6'} !p-0 ${
+      className={`w-full ${pinned ? 'mb-0' : 'mb-6'} !p-0 ${
         isDock
           ? 'w-full overflow-hidden border-b-2 border-stone-500 bg-stone-200 shadow-[0_6px_24px_rgb(0_0_0_/0.18)]'
           : `card-premium ${trailing ? 'overflow-visible' : 'overflow-hidden'} ${
@@ -197,7 +197,7 @@ export function SectionTabNav({
       aria-label={ariaLabel}
     >
       {showBrand ? (
-        <div className="hidden items-center gap-2.5 border-b border-stone-300 px-4 py-2.5 md:flex lg:px-6">
+        <div className="hidden items-center gap-2.5 border-b border-stone-300 px-4 py-2.5 md:flex md:px-6 lg:px-8">
           <img
             src={APP_LOGO_SRC}
             alt={APP_NAME}

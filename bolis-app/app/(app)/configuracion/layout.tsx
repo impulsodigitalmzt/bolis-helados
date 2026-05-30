@@ -10,8 +10,10 @@ export default function ConfiguracionLayout({
     <>
       <ConfigSubNav />
       <div className={`min-w-0 ${SECTION_CONTENT_OFFSET_CLASS}`}>
-        <div className="card-premium mt-3 min-w-0 max-w-full overflow-x-hidden rounded-2xl p-4 sm:mt-4 sm:p-6 lg:p-8">
-          {children}
+        <div className="app-container px-4 sm:px-5 lg:px-8">
+          <div className="card-premium mt-3 min-w-0 max-w-full overflow-x-hidden rounded-2xl p-4 sm:mt-4 sm:p-6 lg:p-8">
+            {children}
+          </div>
         </div>
       </div>
     </>

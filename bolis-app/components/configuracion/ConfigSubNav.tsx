@@ -5,7 +5,6 @@ import { useCallback, useMemo, useTransition } from 'react';
 import { ConfigNavToolbar } from '@/components/configuracion/ConfigNavToolbar';
 import { SectionTabNav } from '@/components/ui/SectionTabNav';
 import {
-  SECTION_CONTENT_OFFSET_CLASS,
   SECTION_FIXED_HEADER_CLASS,
 } from '@/lib/sectionChrome';
 import {
@@ -77,33 +76,31 @@ export function ConfigSubNav() {
 
   return (
     <div className={SECTION_FIXED_HEADER_CLASS}>
-      <div className="app-container !px-0 md:!px-4 lg:!px-6">
-        <SectionTabNav
-          items={[...CONFIG_TABS]}
-          pathname={pathname}
-          ariaLabel="Sección de configuración"
-          equalColumns
-          pinned
-          showHint
-          showBrand
-          sectionTitle="Configuración"
-          hintActions={
-            <ConfigNavToolbar
-              canGoBack={canGoBack}
-              canGoForward={canGoForward}
-              isRefreshing={isRefreshing}
-              onBack={() => {
-                if (canGoBack) router.push(CONFIG_TABS[activeIndex - 1].href);
-              }}
-              onForward={() => {
-                if (canGoForward) router.push(CONFIG_TABS[activeIndex + 1].href);
-              }}
-              onRestore={handleRestore}
-              onPrint={() => window.print()}
-            />
-          }
-        />
-      </div>
+      <SectionTabNav
+        items={[...CONFIG_TABS]}
+        pathname={pathname}
+        ariaLabel="Sección de configuración"
+        equalColumns
+        pinned
+        showHint
+        showBrand
+        sectionTitle="Configuración"
+        hintActions={
+          <ConfigNavToolbar
+            canGoBack={canGoBack}
+            canGoForward={canGoForward}
+            isRefreshing={isRefreshing}
+            onBack={() => {
+              if (canGoBack) router.push(CONFIG_TABS[activeIndex - 1].href);
+            }}
+            onForward={() => {
+              if (canGoForward) router.push(CONFIG_TABS[activeIndex + 1].href);
+            }}
+            onRestore={handleRestore}
+            onPrint={() => window.print()}
+          />
+        }
+      />
     </div>
   );
 }

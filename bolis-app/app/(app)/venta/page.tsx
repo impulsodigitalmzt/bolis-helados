@@ -17,9 +17,9 @@ export default async function VentaPage() {
   }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
+    <div className="mx-auto flex min-h-0 w-full max-w-md flex-1 flex-col lg:max-w-lg">
       {errorMessage ? (
-        <div className="alert-warning mb-5 shrink-0">{errorMessage}</div>
+        <div className="alert-warning mb-4 shrink-0">{errorMessage}</div>
       ) : null}
 
       {sabores.length === 0 ? (

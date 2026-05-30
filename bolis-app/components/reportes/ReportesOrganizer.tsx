@@ -90,41 +90,40 @@ export function ReportesOrganizer({
     <>
       <div className="no-print">
         <div className={SECTION_FIXED_HEADER_CLASS}>
-          <div className="app-container !px-0 md:!px-4 lg:!px-6">
-            <SectionTabNav
-              items={[...REPORT_TABS]}
-              activeKey={active}
-              onActiveChange={(key) => setActive(key as TabId)}
-              ariaLabel="Secciones de reportes"
-              pinned
-              showHint
-              showBrand
-              sectionTitle="Reportes"
-              hintActions={
-                <ReportesNavToolbar
-                  activeTab={active}
-                  canGoBack={canGoBack}
-                  canGoForward={canGoForward}
-                  isRefreshing={isRefreshing}
-                  onBack={() => {
-                    if (canGoBack) setActive(TAB_ORDER[activeIndex - 1]);
-                  }}
-                  onForward={() => {
-                    if (canGoForward) setActive(TAB_ORDER[activeIndex + 1]);
-                  }}
-                  onRestore={handleRestore}
-                  onPrint={handlePrint}
-                />
-              }
-            />
-          </div>
+          <SectionTabNav
+            items={[...REPORT_TABS]}
+            activeKey={active}
+            onActiveChange={(key) => setActive(key as TabId)}
+            ariaLabel="Secciones de reportes"
+            pinned
+            showHint
+            showBrand
+            sectionTitle="Reportes"
+            hintActions={
+              <ReportesNavToolbar
+                activeTab={active}
+                canGoBack={canGoBack}
+                canGoForward={canGoForward}
+                isRefreshing={isRefreshing}
+                onBack={() => {
+                  if (canGoBack) setActive(TAB_ORDER[activeIndex - 1]);
+                }}
+                onForward={() => {
+                  if (canGoForward) setActive(TAB_ORDER[activeIndex + 1]);
+                }}
+                onRestore={handleRestore}
+                onPrint={handlePrint}
+              />
+            }
+          />
         </div>
 
-        <div
-          className={`card-premium mt-3 min-w-0 max-w-full overflow-x-hidden rounded-2xl p-4 sm:mt-4 sm:p-6 lg:p-8 ${
-            isRefreshing ? 'opacity-70' : ''
-          }`}
-        >
+        <div className="app-container px-4 sm:px-5 lg:px-8">
+          <div
+            className={`card-premium mt-3 min-w-0 max-w-full overflow-x-hidden rounded-2xl p-4 sm:mt-4 sm:p-6 lg:p-8 ${
+              isRefreshing ? 'opacity-70' : ''
+            }`}
+          >
             {active === 'finanzas' ? (
               <TableroFinanciero
                 key={`finanzas-${refreshKey}`}
@@ -148,6 +147,7 @@ export function ReportesOrganizer({
               />
             ) : null}
           </div>
+        </div>
       </div>
 
       <ReportesPrintDocument
