@@ -68,7 +68,12 @@ export function ReportesOrganizer({
   const handlePrint = useCallback((scope: ReportesPrintScope) => {
     setPrintScope(scope);
     setPrintedAt(new Date());
-    setTimeout(() => triggerReportesPrint(), 80);
+    // Esperar al re-render con el scope correcto antes de abrir impresión
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        triggerReportesPrint();
+      });
+    });
   }, []);
 
   const handleRestore = useCallback(() => {

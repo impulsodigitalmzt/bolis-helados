@@ -97,14 +97,14 @@ export default async function ReportesPage() {
   }
 
   return (
-    <div className="no-print">
-      <PageHeader title="Reportes" compact className="hidden md:block md:mb-3" />
+    <>
+      <PageHeader title="Reportes" compact className="no-print hidden md:block md:mb-3" />
 
       {errorMessage ? (
-        <div className="alert-warning mb-3">{errorMessage}</div>
+        <div className="alert-warning no-print mb-3">{errorMessage}</div>
       ) : null}
 
       <ReportesOrganizer tablero={tablero} alertas={alertas} ventas={ventas} />
-    </div>
+    </>
   );
 }
