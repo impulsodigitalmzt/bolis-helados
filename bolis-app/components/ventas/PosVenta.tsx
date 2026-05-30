@@ -14,6 +14,7 @@ import {
   semaforoStock,
   type SaborPos,
 } from '@/lib/queries/ventas';
+import { APP_LOGO_SRC, APP_NAME } from '@/lib/branding';
 import type { Vendedora } from '@/lib/types/database';
 import { formatCurrency } from '@/lib/utils/format';
 
@@ -125,6 +126,13 @@ export function PosVenta({ sabores, vendedoras }: PosVentaProps) {
           className="relative flex min-h-[2.5rem] items-center justify-center px-11 sm:min-h-[2.75rem] sm:px-12"
           ref={vendedoraMenuRef}
         >
+          <img
+            src={APP_LOGO_SRC}
+            alt={APP_NAME}
+            width={36}
+            height={36}
+            className="absolute left-0 top-1/2 h-9 w-9 -translate-y-1/2 rounded-full object-cover shadow-sm ring-2 ring-white/80 md:hidden"
+          />
           <div className="min-w-0 max-w-full text-center">
             <p className="text-[10px] font-bold uppercase tracking-wide text-stone-500">
               Vendedor

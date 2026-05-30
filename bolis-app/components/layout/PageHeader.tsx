@@ -14,7 +14,14 @@ export function PageHeader({
 }: PageHeaderProps) {
   return (
     <header className={`${compact ? 'mb-3' : 'mb-7'} ${className}`.trim()}>
-      <div className={`flex items-center gap-2 ${compact ? 'mb-1.5' : 'mb-3'}`}>
+      <div className={`flex items-center gap-2.5 ${compact ? 'mb-1.5' : 'mb-3'}`}>
+        <img
+          src="/imagenes/LOGO.png"
+          alt=""
+          width={40}
+          height={40}
+          className="h-10 w-10 shrink-0 rounded-full object-cover shadow-sm ring-2 ring-white/80"
+        />
         <span className="badge-brand">Bolis &amp; Más</span>
       </div>
       <h1

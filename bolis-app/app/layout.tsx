@@ -2,6 +2,11 @@ import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { InstallPwaHint } from '@/components/pwa/InstallPwaHint';
 import { ServiceWorkerRegister } from '@/components/pwa/ServiceWorkerRegister';
+import {
+  APP_LOGO_SIZE,
+  APP_LOGO_SRC,
+  APP_NAME,
+} from '@/lib/branding';
 import './globals.css';
 
 const geistSans = Geist({
@@ -24,22 +29,40 @@ export const viewport: Viewport = {
   ],
 };
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
+
 export const metadata: Metadata = {
-  title: 'Bolis & Más',
+  metadataBase: new URL(siteUrl),
+  title: APP_NAME,
   description: 'Control financiero de bolis helados artesanales',
-  applicationName: 'Bolis & Más',
+  applicationName: APP_NAME,
   manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
-    title: 'Bolis & Más',
+    title: APP_NAME,
     statusBarStyle: 'black-translucent',
   },
   formatDetection: {
     telephone: false,
   },
   icons: {
-    icon: [{ url: '/icon', type: 'image/png', sizes: '512x512' }],
-    apple: [{ url: '/apple-icon', type: 'image/png', sizes: '180x180' }],
+    icon: [{ url: APP_LOGO_SRC, type: 'image/png' }],
+    apple: [{ url: APP_LOGO_SRC, type: 'image/png' }],
+    shortcut: [APP_LOGO_SRC],
+  },
+  openGraph: {
+    title: APP_NAME,
+    description: 'Control financiero de bolis helados artesanales',
+    images: [
+      {
+        url: APP_LOGO_SRC,
+        width: APP_LOGO_SIZE.width,
+        height: APP_LOGO_SIZE.height,
+        alt: APP_NAME,
+      },
+    ],
   },
 };
 

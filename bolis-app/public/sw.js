@@ -1,9 +1,11 @@
 /* Service worker mínimo para instalación PWA (Android) y caché offline básica. */
-const CACHE = 'bolis-v1';
+const CACHE = 'bolis-v2';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(['/venta', '/offline'])),
+    caches.open(CACHE).then((cache) =>
+      cache.addAll(['/venta', '/offline', '/imagenes/LOGO.png']),
+    ),
   );
   self.skipWaiting();
 });

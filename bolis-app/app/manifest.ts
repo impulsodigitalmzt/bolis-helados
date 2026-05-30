@@ -1,9 +1,10 @@
 import type { MetadataRoute } from 'next';
+import { APP_LOGO_SIZE, APP_LOGO_SRC, APP_NAME } from '@/lib/branding';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: '/',
-    name: 'Bolis & Más',
+    name: APP_NAME,
     short_name: 'Bolis',
     description: 'Control financiero de bolis helados artesanales',
     start_url: '/venta',
@@ -16,20 +17,14 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ['business', 'finance'],
     icons: [
       {
-        src: '/icon',
-        sizes: '512x512',
+        src: APP_LOGO_SRC,
+        sizes: `${APP_LOGO_SIZE.width}x${APP_LOGO_SIZE.height}`,
         type: 'image/png',
         purpose: 'any',
       },
       {
-        src: '/apple-icon',
-        sizes: '180x180',
-        type: 'image/png',
-        purpose: 'any',
-      },
-      {
-        src: '/icon',
-        sizes: '512x512',
+        src: APP_LOGO_SRC,
+        sizes: `${APP_LOGO_SIZE.width}x${APP_LOGO_SIZE.height}`,
         type: 'image/png',
         purpose: 'maskable',
       },
