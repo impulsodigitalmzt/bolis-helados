@@ -31,7 +31,7 @@ export function DateRangeFilter({
       : '';
 
   return (
-    <div className="card-premium space-y-4 p-4">
+    <div className="card-premium min-w-0 max-w-full space-y-4 p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="text-sm font-bold text-stone-800">Rango de fechas</p>
         {rangeLabel ? (

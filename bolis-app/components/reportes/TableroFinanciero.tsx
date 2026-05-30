@@ -25,13 +25,15 @@ function UtilidadCard({
 }) {
   return (
     <Card variant="brand" className="!p-4">
-      <p className="text-xs font-semibold uppercase tracking-widest text-brand-dark">
+      <p className="break-words text-xs font-semibold uppercase tracking-wide text-brand-dark sm:tracking-widest">
         {titulo}
       </p>
       <p className="mt-2 text-2xl font-extrabold tabular-nums text-profit sm:text-3xl">
         {formatCurrency(utilidad.gananciaNeta)}
       </p>
-      <p className="mt-1 text-[11px] text-stone-600">{subtitulo}</p>
+      <p className="mt-1 break-words text-[11px] leading-snug text-stone-600">
+        {subtitulo}
+      </p>
       <div className="mt-3 grid grid-cols-2 gap-2 text-[10px]">
         <div>
           <span className="text-stone-500">Utilidad bruta</span>
@@ -61,7 +63,7 @@ export function TableroFinanciero({ data, embedded = false }: TableroFinancieroP
   const conStock = inventario.filter((i) => i.stock_disponible > 0);
 
   return (
-    <section className="space-y-5 lg:space-y-6">
+    <section className="min-w-0 max-w-full space-y-5 lg:space-y-6">
       {embedded ? (
         <div className="flex justify-end">
           <Link
@@ -95,14 +97,14 @@ export function TableroFinanciero({ data, embedded = false }: TableroFinancieroP
         </div>
       )}
 
-      <div className="grid gap-5 lg:grid-cols-2 lg:gap-6 lg:items-start">
-        <div className="space-y-5 lg:space-y-6">
+      <div className="grid min-w-0 gap-5 lg:grid-cols-2 lg:gap-6 lg:items-start">
+        <div className="min-w-0 space-y-5 lg:space-y-6">
           <SemaforoFinancieroCard
             proyeccion={proyeccion}
             utilidadMes={utilidadMes}
           />
 
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid min-w-0 grid-cols-1 gap-3 md:grid-cols-2">
             <UtilidadCard
               titulo="Dinero libre hoy"
               utilidad={utilidadHoy}
@@ -118,7 +120,7 @@ export function TableroFinanciero({ data, embedded = false }: TableroFinancieroP
           <ReporteProyeccionFinanciera proyeccion={proyeccion} />
         </div>
 
-        <div className="space-y-5 lg:space-y-6">
+        <div className="min-w-0 space-y-5 lg:space-y-6">
       {productoEstrella ? (
         <Card className="!p-4">
           <div className="flex items-start gap-3">

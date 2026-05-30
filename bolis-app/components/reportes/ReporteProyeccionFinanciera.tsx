@@ -13,7 +13,7 @@ export function ReporteProyeccionFinanciera({
   const { margen, escenarios } = proyeccion;
 
   return (
-    <section className="space-y-4">
+    <section className="min-w-0 max-w-full space-y-4">
       <div>
         <h2 className="text-base font-bold text-stone-900">
           Reporte financiero proyectado
@@ -25,7 +25,7 @@ export function ReporteProyeccionFinanciera({
       </div>
 
       {margen ? (
-        <div className="card-premium grid grid-cols-2 gap-3 p-3 text-[11px] sm:grid-cols-3 lg:grid-cols-4">
+        <div className="card-premium grid min-w-0 grid-cols-2 gap-3 p-3 text-[11px] sm:grid-cols-3 lg:grid-cols-4">
           <div>
             <span className="text-stone-500">Precio venta prom.</span>
             <p className="font-bold tabular-nums text-stone-900">
@@ -51,8 +51,8 @@ export function ReporteProyeccionFinanciera({
         </p>
       )}
 
-      <div className="card-premium overflow-hidden p-0">
-        <div className="overflow-x-auto lg:overflow-visible">
+      <div className="card-premium min-w-0 max-w-full overflow-hidden p-0">
+        <div className="-mx-px max-w-full overflow-x-auto overscroll-x-contain">
           <table className="w-full min-w-[36rem] border-collapse text-sm lg:min-w-0">
             <thead>
               <tr className="bg-stone-100 text-[10px] font-bold uppercase tracking-wide text-stone-600">
@@ -146,7 +146,7 @@ export function ReporteProyeccionFinanciera({
       </div>
 
       {escenarios.find((e) => e.id === 'local')?.bolisExtraNecesarios ? (
-        <p className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+        <p className="break-words rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-900">
           En el escenario local necesitarías vender{' '}
           <strong>
             {formatNumber(

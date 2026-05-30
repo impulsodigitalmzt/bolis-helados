@@ -152,7 +152,7 @@ export function AlertasYCompras({ initialData, embedded = false }: AlertasYCompr
   }
 
   return (
-    <section className={`space-y-4 ${isPending ? 'opacity-70' : ''}`}>
+    <section className={`min-w-0 max-w-full space-y-4 ${isPending ? 'opacity-70' : ''}`}>
       {successMessage ? (
         <SuccessToast
           message={successMessage}
@@ -196,7 +196,7 @@ export function AlertasYCompras({ initialData, embedded = false }: AlertasYCompr
         </div>
       ) : null}
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid min-w-0 gap-4 lg:grid-cols-2">
       <Card className="overflow-hidden !p-0">
         <div className="border-b border-stone-100 bg-red-50/80 px-3 py-2">
           <p className="text-sm font-bold text-red-900">

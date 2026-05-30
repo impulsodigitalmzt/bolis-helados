@@ -56,7 +56,7 @@ export function ReportesDashboard({
 
   return (
     <div
-      className={`space-y-5 ${isPending ? 'opacity-70' : ''}`}
+      className={`min-w-0 max-w-full space-y-5 ${isPending ? 'opacity-70' : ''}`}
       role={embedded ? undefined : 'region'}
       aria-label={embedded ? undefined : 'Análisis de ventas por período'}
     >

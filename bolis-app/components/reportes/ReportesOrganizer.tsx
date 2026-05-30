@@ -79,7 +79,7 @@ export function ReportesOrganizer({
           />
         </div>
 
-        <div className="card-premium mt-4 rounded-2xl p-4 sm:p-6 lg:p-8">
+        <div className="card-premium mt-4 min-w-0 max-w-full overflow-x-hidden rounded-2xl p-4 sm:p-6 lg:p-8">
           {active === 'finanzas' ? (
             <TableroFinanciero data={tablero} embedded />
           ) : null}

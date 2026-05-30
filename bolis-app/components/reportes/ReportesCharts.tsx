@@ -91,8 +91,8 @@ export function ReportesCharts({ data }: ReportesChartsProps) {
   const tickStyle = { fontSize: 11, fill: '#78716c' };
 
   return (
-    <div className="space-y-5 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
-      <div className="card-premium p-4 sm:p-5 lg:col-span-2">
+    <div className="min-w-0 max-w-full space-y-5 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
+      <div className="card-premium min-w-0 p-4 sm:p-5 lg:col-span-2">
         <div className="mb-4 flex items-center gap-2">
           <span className="h-5 w-1 rounded-full bg-brand" aria-hidden />
           <h2 className="text-sm font-bold text-stone-800">
@@ -152,7 +152,7 @@ export function ReportesCharts({ data }: ReportesChartsProps) {
         )}
       </div>
 
-      <div className="card-premium p-4 sm:p-5">
+      <div className="card-premium min-w-0 p-4 sm:p-5">
         <div className="mb-4 flex items-center gap-2">
           <span className="h-5 w-1 rounded-full bg-brand" aria-hidden />
           <h2 className="text-sm font-bold text-stone-800">
@@ -201,7 +201,7 @@ export function ReportesCharts({ data }: ReportesChartsProps) {
         )}
       </div>
 
-      <div className="card-premium p-4 sm:p-5">
+      <div className="card-premium min-w-0 p-4 sm:p-5">
         <div className="mb-4 flex items-center gap-2">
           <span className="h-5 w-1 rounded-full bg-profit" aria-hidden />
           <h2 className="text-sm font-bold text-stone-800">

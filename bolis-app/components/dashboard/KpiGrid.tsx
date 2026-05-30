@@ -39,11 +39,11 @@ const secondaryKpis = [
 
 export function KpiGrid({ kpis }: KpiGridProps) {
   return (
-    <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid min-w-0 gap-3 md:grid-cols-2 lg:grid-cols-4">
       <Card variant="brand" className="!p-5 md:col-span-2 lg:col-span-2">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-brand-dark">
+        <div className="flex min-w-0 items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="break-words text-xs font-semibold uppercase tracking-wide text-brand-dark sm:tracking-widest">
               Ganancia neta real
             </p>
             <p className="mt-2 text-3xl font-extrabold leading-none tracking-tight tabular-nums text-profit sm:text-4xl">

@@ -20,6 +20,8 @@ export function Card({
   };
 
   return (
-    <div className={`${variants[variant]} p-4 ${className}`}>{children}</div>
+    <div className={`${variants[variant]} min-w-0 max-w-full overflow-hidden p-4 ${className}`}>
+      {children}
+    </div>
   );
 }

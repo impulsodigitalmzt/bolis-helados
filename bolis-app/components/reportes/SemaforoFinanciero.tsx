@@ -50,11 +50,11 @@ export function SemaforoFinancieroCard({
 
   return (
     <div
-      className={`rounded-2xl p-4 ring-2 ${estado.bg} ${estado.ring}`}
+      className={`min-w-0 max-w-full overflow-hidden rounded-2xl p-4 ring-2 ${estado.bg} ${estado.ring}`}
       role="status"
       aria-label={estado.titulo}
     >
-      <div className="flex items-start gap-3">
+      <div className="flex min-w-0 items-start gap-3">
         <div className="flex flex-col gap-1.5 pt-1">
           <span
             className={`h-4 w-4 rounded-full ${ESTADOS.verde.dot} ${
@@ -73,11 +73,13 @@ export function SemaforoFinancieroCard({
           />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-extrabold text-stone-900">{estado.titulo}</p>
-          <p className="mt-1 text-xs leading-relaxed text-stone-700">
+          <p className="break-words text-sm font-extrabold text-stone-900">
+            {estado.titulo}
+          </p>
+          <p className="mt-1 break-words text-xs leading-relaxed text-stone-700">
             {estado.mensaje}
           </p>
-          <div className="mt-3 grid grid-cols-2 gap-2 text-[10px]">
+          <div className="mt-3 grid min-w-0 grid-cols-2 gap-2 text-[10px]">
             <div>
               <span className="text-stone-500">Ganancia neta mes</span>
               <p className="font-bold tabular-nums text-stone-900">
