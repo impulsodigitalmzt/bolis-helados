@@ -32,6 +32,8 @@ interface SectionTabNavProps {
   equalColumns?: boolean;
   /** Sin margen inferior (p. ej. barra fija arriba). */
   pinned?: boolean;
+  /** Botones compactos en la franja de hint (p. ej. navegación / actualizar). */
+  hintActions?: ReactNode;
 }
 
 function isActiveLink(pathname: string, href: string): boolean {
@@ -131,6 +133,7 @@ export function SectionTabNav({
   variant = 'card',
   equalColumns = false,
   pinned = false,
+  hintActions,
 }: SectionTabNavProps) {
   const resolvedActive =
     activeKey ??
@@ -211,9 +214,14 @@ export function SectionTabNav({
         {trailing}
       </div>
       {showHint && current?.hint ? (
-        <p className="border-t-2 border-stone-300 bg-stone-200 px-3 py-2.5 text-center text-xs font-medium leading-snug text-stone-800 break-words">
-          {current.hint}
-        </p>
+        <div className="flex items-center gap-2 border-t-2 border-stone-300 bg-stone-200 px-2 py-2 sm:px-3 sm:py-2.5">
+          <p className="min-w-0 flex-1 text-center text-xs font-medium leading-snug text-stone-800 break-words">
+            {current.hint}
+          </p>
+          {hintActions ? (
+            <div className="flex shrink-0 items-center gap-1">{hintActions}</div>
+          ) : null}
+        </div>
       ) : null}
     </nav>
   );

@@ -111,3 +111,29 @@ export function IconReceipt({ className, ...props }: IconProps) {
     </svg>
   );
 }
+
+export function IconChevronLeft({ className, ...props }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className={className} {...props}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15 18l-6-6 6-6" />
+    </svg>
+  );
+}
+
+export function IconChevronRight({ className, ...props }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className={className} {...props}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
+    </svg>
+  );
+}
+
+export function IconRefresh({ className, ...props }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className={className} {...props}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h5" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M20 20v-5h-5" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M20 9a8 8 0 00-14.5-2M4 15a8 8 0 0014.5 2" />
+    </svg>
+  );
+}

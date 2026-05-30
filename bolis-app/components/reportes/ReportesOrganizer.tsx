@@ -1,14 +1,15 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import { AlertasYCompras } from '@/components/reportes/AlertasYCompras';
 import { ReportesDashboard } from '@/components/reportes/ReportesDashboard';
+import { ReportesNavToolbar } from '@/components/reportes/ReportesNavToolbar';
 import { TableroFinanciero } from '@/components/reportes/TableroFinanciero';
 import {
   ReportesPrintDocument,
   type ReportesPrintScope,
 } from '@/components/reportes/print/ReportesPrintDocument';
-import { ReportesPrintMenu } from '@/components/reportes/print/ReportesPrintMenu';
 import { triggerReportesPrint } from '@/components/reportes/print/triggerReportesPrint';
 import { SectionTabNav } from '@/components/ui/SectionTabNav';
 import type { AlertasYComprasData } from '@/lib/queries/gestionInteligente';
@@ -39,6 +40,8 @@ const REPORT_TABS = [
   },
 ];
 
+const TAB_ORDER: TabId[] = ['finanzas', 'inventario', 'ventas'];
+
 export interface ReportesOrganizerProps {
   tablero: TableroFinancieroData;
   alertas: AlertasYComprasData;
@@ -50,10 +53,17 @@ export function ReportesOrganizer({
   alertas,
   ventas,
 }: ReportesOrganizerProps) {
+  const router = useRouter();
+  const [isRefreshing, startRefresh] = useTransition();
   const [active, setActive] = useState<TabId>('finanzas');
   const [ventasData, setVentasData] = useState(ventas);
   const [printScope, setPrintScope] = useState<ReportesPrintScope>('all');
   const [printedAt, setPrintedAt] = useState(() => new Date());
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const activeIndex = TAB_ORDER.indexOf(active);
+  const canGoBack = activeIndex > 0;
+  const canGoForward = activeIndex < TAB_ORDER.length - 1;
 
   const handlePrint = useCallback((scope: ReportesPrintScope) => {
     setPrintScope(scope);
@@ -61,35 +71,66 @@ export function ReportesOrganizer({
     setTimeout(() => triggerReportesPrint(), 80);
   }, []);
 
+  const handleRestore = useCallback(() => {
+    startRefresh(() => {
+      setRefreshKey((k) => k + 1);
+      router.refresh();
+    });
+  }, [router]);
+
   return (
     <>
       <div className="no-print">
-        <div className="fixed inset-x-0 top-0 z-40 border-b-2 border-stone-500 bg-stone-200 pt-[env(safe-area-inset-top,0px)] shadow-[0_6px_24px_rgb(0_0_0_/0.18)] md:relative md:inset-auto md:mb-4 md:border-b-0 md:bg-transparent md:pt-0 md:shadow-none">
+        <div className="fixed inset-x-0 top-0 z-40 border-b-2 border-stone-500 bg-stone-200 pt-[env(safe-area-inset-top,0px)] shadow-[0_6px_24px_rgb(0_0_0_/0.18)] md:relative md:inset-auto md:mb-6 md:border-b-0 md:bg-transparent md:pt-0 md:shadow-none">
           <SectionTabNav
-            variant="dock"
             items={[...REPORT_TABS]}
             activeKey={active}
             onActiveChange={(key) => setActive(key as TabId)}
             ariaLabel="Secciones de reportes"
-            className="mb-0"
-            showHint={false}
             pinned
-            trailing={
-              <ReportesPrintMenu activeTab={active} onPrint={handlePrint} />
+            showHint
+            hintActions={
+              <ReportesNavToolbar
+                activeTab={active}
+                canGoBack={canGoBack}
+                canGoForward={canGoForward}
+                isRefreshing={isRefreshing}
+                onBack={() => {
+                  if (canGoBack) setActive(TAB_ORDER[activeIndex - 1]);
+                }}
+                onForward={() => {
+                  if (canGoForward) setActive(TAB_ORDER[activeIndex + 1]);
+                }}
+                onRestore={handleRestore}
+                onPrint={handlePrint}
+              />
             }
           />
         </div>
 
-        <div className="pt-[calc(4.25rem+env(safe-area-inset-top,0px))] md:pt-0">
-          <div className="card-premium mt-4 min-w-0 max-w-full overflow-x-hidden rounded-2xl p-4 sm:p-6 lg:p-8">
+        <div className="pt-[5.85rem] md:pt-0">
+          <div
+            className={`card-premium mt-4 min-w-0 max-w-full overflow-x-hidden rounded-2xl p-4 sm:p-6 lg:p-8 ${
+              isRefreshing ? 'opacity-70' : ''
+            }`}
+          >
             {active === 'finanzas' ? (
-              <TableroFinanciero data={tablero} embedded />
+              <TableroFinanciero
+                key={`finanzas-${refreshKey}`}
+                data={tablero}
+                embedded
+              />
             ) : null}
             {active === 'inventario' ? (
-              <AlertasYCompras initialData={alertas} embedded />
+              <AlertasYCompras
+                key={`inventario-${refreshKey}`}
+                initialData={alertas}
+                embedded
+              />
             ) : null}
             {active === 'ventas' ? (
               <ReportesDashboard
+                key={`ventas-${refreshKey}`}
                 initialData={ventas}
                 embedded
                 onDataChange={setVentasData}
