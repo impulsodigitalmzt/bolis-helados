@@ -1,6 +1,8 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useCallback, useMemo, useTransition } from 'react';
+import { ConfigNavToolbar } from '@/components/configuracion/ConfigNavToolbar';
 import { SectionTabNav } from '@/components/ui/SectionTabNav';
 import {
   IconGear,
@@ -49,6 +51,25 @@ const CONFIG_TABS = [
 
 export function ConfigSubNav() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [isRefreshing, startRefresh] = useTransition();
+
+  const activeIndex = useMemo(() => {
+    const idx = CONFIG_TABS.findIndex(
+      (tab) =>
+        pathname === tab.href || pathname.startsWith(`${tab.href}/`),
+    );
+    return idx >= 0 ? idx : 0;
+  }, [pathname]);
+
+  const canGoBack = activeIndex > 0;
+  const canGoForward = activeIndex < CONFIG_TABS.length - 1;
+
+  const handleRestore = useCallback(() => {
+    startRefresh(() => {
+      router.refresh();
+    });
+  }, [router]);
 
   return (
     <div className="no-print fixed inset-x-0 top-0 z-40 border-b-2 border-stone-500 bg-stone-200 pt-[env(safe-area-inset-top,0px)] shadow-[0_6px_24px_rgb(0_0_0_/0.18)] md:relative md:inset-auto md:mb-6 md:border-b-0 md:bg-transparent md:pt-0 md:shadow-none">
@@ -58,6 +79,21 @@ export function ConfigSubNav() {
         ariaLabel="Sección de configuración"
         equalColumns
         pinned
+        hintActions={
+          <ConfigNavToolbar
+            canGoBack={canGoBack}
+            canGoForward={canGoForward}
+            isRefreshing={isRefreshing}
+            onBack={() => {
+              if (canGoBack) router.push(CONFIG_TABS[activeIndex - 1].href);
+            }}
+            onForward={() => {
+              if (canGoForward) router.push(CONFIG_TABS[activeIndex + 1].href);
+            }}
+            onRestore={handleRestore}
+            onPrint={() => window.print()}
+          />
+        }
       />
     </div>
   );
