@@ -17,7 +17,7 @@ export default async function VentaPage() {
   }
 
   return (
-    <div className="mx-auto flex min-h-0 w-full max-w-md flex-1 flex-col px-4 pt-3 lg:max-w-lg">
+    <div className="mx-auto flex min-h-0 w-full max-w-md flex-1 flex-col lg:max-w-lg">
       {errorMessage ? (
         <div className="alert-warning mb-4 shrink-0">{errorMessage}</div>
       ) : null}

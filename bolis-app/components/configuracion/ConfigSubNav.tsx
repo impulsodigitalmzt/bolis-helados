@@ -3,7 +3,6 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useMemo, useTransition } from 'react';
 import { ConfigNavToolbar } from '@/components/configuracion/ConfigNavToolbar';
-import { SectionCrossNav } from '@/components/layout/SectionCrossNav';
 import { SectionTabNav } from '@/components/ui/SectionTabNav';
 import {
   SECTION_FIXED_HEADER_CLASS,
@@ -86,7 +85,6 @@ export function ConfigSubNav() {
         pinned
           showHint
           showHintText={false}
-          leadingActions={<SectionCrossNav items={['venta', 'reportes']} />}
           hintActions={
           <ConfigNavToolbar
             canGoBack={canGoBack}

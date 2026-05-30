@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { AlertasYCompras } from '@/components/reportes/AlertasYCompras';
 import { ReportesDashboard } from '@/components/reportes/ReportesDashboard';
 import { ReportesNavToolbar } from '@/components/reportes/ReportesNavToolbar';
-import { SectionCrossNav } from '@/components/layout/SectionCrossNav';
 import { TableroFinanciero } from '@/components/reportes/TableroFinanciero';
 import {
   ReportesPrintDocument,
@@ -101,7 +100,6 @@ export function ReportesOrganizer({
             pinned
             showHint
             showHintText={false}
-            leadingActions={<SectionCrossNav items={['venta', 'config']} />}
             hintActions={
               <ReportesNavToolbar
                 activeTab={active}

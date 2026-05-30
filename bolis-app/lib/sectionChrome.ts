@@ -4,6 +4,3 @@ export const SECTION_FIXED_HEADER_CLASS =
 
 /** Espacio bajo la barra fija para que el contenido no quede oculto. */
 export const SECTION_CONTENT_OFFSET_CLASS = 'section-content-offset';
-
-/** Barra principal (Venta / Reportes / Config) — una sola fila de pestañas. */
-export const SECTION_CONTENT_OFFSET_COMPACT_CLASS = 'section-content-offset-compact';
